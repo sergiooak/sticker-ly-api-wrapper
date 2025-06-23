@@ -28,7 +28,7 @@ export default defineAppConfig({
     colorMode: true,
     links: [{
       'icon': 'i-simple-icons-github',
-      'to': 'https://github.com/nuxt-ui-pro/docs',
+      'to': 'https://github.com/sergiooak/sticker-ly-api-wrapper',
       'target': '_blank',
       'aria-label': 'GitHub'
     }]
