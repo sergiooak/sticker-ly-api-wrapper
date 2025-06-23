@@ -60,7 +60,7 @@ export default defineCachedEventHandler(async () => {
   // Log the response for debugging
   console.log('Response from Sticker.ly API:', response)
 
-  const mappedStickers = response.result.stickers.map(sticker => ({
+  const data = response.result.stickers.map(sticker => ({
     id: sticker.sid,
     url: sticker.resourceUrl,
     isAnimated: sticker.isAnimated,
@@ -76,17 +76,12 @@ export default defineCachedEventHandler(async () => {
       )
     },
     user: {
-      id: sticker.user.oid,
-      name: sticker.user.userName.trim(),
-      isOfficial: sticker.user.isOfficial,
-      profileUrl: sticker.user.profileUrl
+      id: sticker.user?.oid || null,
+      name: sticker.user?.userName.trim() || null,
+      isOfficial: sticker.user?.isOfficial || false,
+      profileUrl: sticker.user?.profileUrl || null
     }
   }))
 
-  const data = {
-    stickers: mappedStickers.map(sticker => sticker.url),
-    result: mappedStickers
-  }
-
-  return useFormatter(true, `Found ${data.stickers.length} recommended stickers`, data)
+  return useFormatter(true, `Found ${data.length} recommended stickers`, data)
 }, { swr: true, maxAge: 5, staleMaxAge: 60 * 60 })
