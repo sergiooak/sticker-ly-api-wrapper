@@ -3,11 +3,11 @@ export default defineCachedEventHandler(
     try {
       const apiResponse = await useStickerlyApi<StickerPackRecommendedResponse>('stickerPack/recommend')
 
-      const recommendedPacks = apiResponse.result.stickerPacks.map(useMapPack)
-      const paidPacks = apiResponse.result.paidStickerPacks?.map(useMapPack) ?? []
+      const packs = apiResponse.result.stickerPacks.map(useMapPack)
+      const premium = apiResponse.result.paidStickerPacks?.map(useMapPack) ?? []
 
-      const result = { recommendedPacks, paidPacks }
-      const infoMessage = `Found ${recommendedPacks.length} recommended packs and ${paidPacks.length} premium packs`
+      const result = { packs, premium }
+      const infoMessage = `Found ${packs.length} recommended packs and ${premium.length} premium packs`
 
       return useFormatter(true, infoMessage, result)
     } catch (error) {
