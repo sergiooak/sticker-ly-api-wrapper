@@ -94,3 +94,50 @@ export type StickerPackRecommendedResponse = {
     boardId: number
   }
 }
+
+// Types for specific pack details
+export type StickerPackDetailSticker = {
+  liked: boolean
+  stickerPack: StickerPack
+  fileName: string
+  animated: boolean
+  viewCount: number
+  sid: string
+  isAnimated: boolean
+}
+
+export type StickerPackResult = {
+  stickers: StickerPackDetailSticker[]
+  packId: string
+  exportCount: number
+  animated: boolean
+  thumb: boolean
+  website: string
+  viewCount: number
+  authorName: string
+  trayIndex: number
+  isPaid: boolean
+  isAnimated: boolean
+  resourceVersion: number
+  shareUrl: string
+  resourceZip: string
+  resourceUrlPrefix: string
+  owner: string
+  updated: number
+  name: string
+}
+
+export type StickerPackResponse = {
+  result: StickerPackResult
+}
+
+// Type for recommended categories
+export type RecommendedPackCategoriesResponse = {
+  result: {
+    categories: {
+      id: string
+      name: string
+      stickerCount: number
+    }[]
+  }
+}
