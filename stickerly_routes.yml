@@ -1,0 +1,61 @@
+sticker:
+  # Search for stickers
+  - route: POST v4/sticker/searchV2
+    comment: Search stickers (SearchStickerResponse.Response)
+
+  # Get recommended stickers
+  - route: GET v4/sticker/recommend
+    comment: Get trending/recommended stickers (TrendingStickerResponse.Response)
+
+  # Get related stickers
+  - route: GET v4/sticker/related
+    comment: Get related stickers by sid (TrendingStickerResponse.Response)
+
+stickerPack:
+  # Search for sticker packs
+  - route: POST v4/stickerPack/searchV2
+    comment: Search sticker packs (SearchPackResponse.Response)
+
+  # Get sticker pack by ID
+  - route: GET v4/stickerPack/{packId}
+    comment: Get sticker pack by ID (ServerStickerPack2.Response)
+
+  # Get recommended categories for a pack
+  - route: GET v4/stickerPack/{packId}/recommendedCategories
+    comment: Get recommended categories for a sticker pack (RecommendedPackCategoriesResponse.Response)
+
+  # Get recommended sticker packs
+  - route: GET v4/stickerPack/recommend
+    comment: Get recommended sticker packs (RecommendResponse.Response)
+
+hometab:
+  # Get hometab overview
+  - route: GET v4/hometab/overview
+    comment: Get hometab overview (HomeTabResponse.Response)
+
+  # Get packs for a hometab
+  - route: GET v4/hometab/{homeTabId}/packs
+    comment: Get packs for a hometab (LoadHomeTabPackResponse.Response)
+  # Get stickers for a hometab
+  - route: GET v4/hometab/{homeTabId}/stickers
+    comment: Get stickers for a hometab (LoadHomeTabStickerResponse.Response)
+
+trending:
+  # Search trending
+  - route: POST v4/trending/search
+    comment: Search trending (ServerSearchOverview.Response)
+
+artist:
+  # Recommend artists
+  - route: POST v4/artist/recommend
+    comment: Recommend artists (LoadArtistListResponse.Response)
+
+stickerTag:
+  # Search sticker tags
+  - route: POST v4/stickerTag/search
+    comment: Search sticker tags (SearchAutoCompletedTagResponse.Response)
+
+stickerTagRecommend:
+  # Get recommended sticker tags
+  - route: GET v4/sticker/tag/recommend
+    comment: Get recommended sticker tags (TagRecommendResponse.Response)
