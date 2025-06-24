@@ -1,12 +1,7 @@
 export default defineCachedEventHandler(
   async () => {
     try {
-      const response = await useStickerlyApi<TrendingSearchResponse>(
-        'trending/search',
-        {
-          method: 'POST'
-        }
-      )
+      const response = await useStickerlyApi<TrendingSearchResponse>('trending/search', { method: 'POST' })
 
       const artists = (response?.result?.recommendUsers || [])
         .map((item: RecommendUser) => useMapArtist(item.user))
