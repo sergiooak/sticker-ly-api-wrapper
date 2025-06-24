@@ -1,35 +1,33 @@
-import type { RecommendedPackCategoriesResponse } from '~~/server/utils/types'
-import { useFormatter } from '~~/server/utils/responseFormatter'
-import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
-
-export default defineCachedEventHandler(async (event) => {
-  try {
-    const packId = event.context.params?.packId
+export default defineCachedEventHandler(
+  async (event) => {
+    const packId = event.context.params?.id
 
     if (!packId) {
       return useFormatter(false, 'Pack ID is required', null)
     }
 
-    const response = await useStickerlyApi<RecommendedPackCategoriesResponse>(
-      `stickerPack/${packId}/recommendedCategories`
-    )
+    try {
+      const response = await useStickerlyApi<RecommendedPackCategoriesResponse>(
+        `stickerPack/${packId}/recommendedCategories`
+      )
 
-    const categories = response.result.categories || []
+      const recommendedCategories = response.result.recommendedPackCategories ?? []
+      if (recommendedCategories.length === 0) {
+        return useFormatter(false, 'No recommended packs found for this pack', null)
+      }
 
-    const data = {
-      packId,
-      categories: categories.map(category => ({
-        id: category.id,
-        name: category.name,
-        count: category.stickerCount
-      }))
+      const data = recommendedCategories[0]?.stickerPacks?.map(useMapPack) ?? []
+      const message = `Found ${data.length} related packs for pack ${packId}`
+
+      return useFormatter(true, message, data)
+    } catch (error) {
+      console.error('Error fetching recommended categories:', error)
+      return useFormatter(false, 'Failed to fetch recommended categories', null, error)
     }
-
-    const message = `Found ${categories.length} recommended categories for pack ${packId}`
-    return useFormatter(true, message, data)
-  } catch (error) {
-    console.error('Error fetching recommended categories:', error)
-    return useFormatter(false, 'Failed to fetch recommended categories', null, error)
+  },
+  {
+    swr: false,
+    maxAge: 1, // 1 minute cache
+    staleMaxAge: 1 // 1 hour stale cache
   }
-}, { swr: true, maxAge: 60 * 30, staleMaxAge: 60 * 60 * 12 })
-// 30 minutes cache, 12 hours stale cache
+)
