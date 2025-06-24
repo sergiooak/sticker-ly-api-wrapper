@@ -54,3 +54,43 @@ export type StickerRelatedResponse = {
     stickers: Sticker[]
   }
 }
+
+export type StickerPackRecommendedUser = {
+  oid: string
+  userName: string
+  isOfficial: boolean
+  profileUrl: string
+  creatorType: string
+}
+
+export type StickerPackRecommended = {
+  user: StickerPackRecommendedUser
+  isPaid: boolean
+  packId: string
+  animated: boolean
+  trayIndex: number
+  viewCount: number
+  authorName: string
+  resourceFiles: string[]
+  exportCount: number
+  isOfficial: boolean
+  website: string
+  thumb: boolean
+  endNewmarkDate?: number
+  isAnimated: boolean
+  shareUrl: string
+  resourceUrlPrefix: string
+  resourceVersion: number
+  resourceZip: string
+  updated: number
+  owner: string
+  name: string
+}
+
+export type StickerPackRecommendedResponse = {
+  result: {
+    stickerPacks: StickerPackRecommended[]
+    paidStickerPacks: StickerPackRecommended[]
+    boardId: number
+  }
+}
