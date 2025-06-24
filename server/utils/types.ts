@@ -173,3 +173,15 @@ export type RecommendTagsResponse = {
     recommendTags: string[]
   }
 }
+
+export type StickerTag = {
+  tagName: string
+  count: number
+}
+
+export type StickerTagSearchResponse = {
+  result: {
+    stickerTags: StickerTag[]
+    nextCursor?: string
+  }
+}
