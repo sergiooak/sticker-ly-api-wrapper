@@ -1,8 +1,3 @@
-import { useMapArtist } from '../../../utils/mapArtist'
-import { useFormatter } from '../../../utils/responseFormatter'
-import { useStickerlyApi } from '../../../utils/stickerlyApi'
-import type { StickerlyArtistRaw, StickerlyArtist } from '../../../utils/types'
-
 export default defineCachedEventHandler(
   async () => {
     try {
