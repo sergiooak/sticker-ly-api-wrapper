@@ -1,42 +1,5 @@
-type StickerPack = {
-  isPaid: boolean
-  trayResourceUrl: string
-  packId: string
-  nsfwScore: number
-  resourceFileNames: string[]
-  stickerCount: number
-  thumb: boolean
-  status: string
-  name: string
-  private: boolean
-}
-
-type User = {
-  oid: string
-  userName: string
-  isOfficial: boolean
-  profileUrl: string
-  creatorType: string
-}
-
-type Sticker = {
-  stickerPack: StickerPack
-  user: User
-  packId: string
-  resourceUrl: string
-  packName: string
-  sid: string
-  animated: boolean
-  liked: boolean
-  viewCount: number
-  isAnimated: boolean
-}
-
-type StickerRelatedResponse = {
-  result: {
-    stickers: Sticker[]
-  }
-}
+import { mapSticker } from '../utils'
+import type { StickerRelatedResponse } from '../utils'
 
 export default defineCachedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
@@ -54,28 +17,7 @@ export default defineCachedEventHandler(async (event) => {
     }
   })
 
-  const data = response.result.stickers.map(sticker => ({
-    id: sticker.sid,
-    url: sticker.resourceUrl,
-    isAnimated: sticker.isAnimated,
-    views: sticker.viewCount,
-    pack: {
-      id: sticker.packId,
-      name: sticker.stickerPack.name.trim(),
-      thumbnail: sticker.stickerPack.trayResourceUrl,
-      isNsfw: sticker.stickerPack.nsfwScore > 0,
-      nsfwScore: sticker.stickerPack.nsfwScore,
-      stickerUrls: sticker.stickerPack.resourceFileNames.map(fileName =>
-        sticker.resourceUrl.substring(0, sticker.resourceUrl.lastIndexOf('/')) + '/' + fileName
-      )
-    },
-    user: {
-      id: sticker.user?.oid || null,
-      name: sticker.user?.userName.trim() || null,
-      isOfficial: sticker.user?.isOfficial || false,
-      profileUrl: sticker.user?.profileUrl || null
-    }
-  }))
+  const data = response.result.stickers.map(mapSticker)
 
   return useFormatter(true, `Found ${data.length} related stickers`, data)
 }, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })

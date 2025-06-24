@@ -1,45 +1,5 @@
-type StickerPack = {
-  isPaid: boolean
-  trayResourceUrl: string
-  packId: string
-  nsfwScore: number
-  resourceFileNames: string[]
-  stickerCount: number
-  thumb: boolean
-  status: string
-  name: string
-  private: boolean
-}
-
-type User = {
-  oid: string
-  userName: string
-  isOfficial: boolean
-  profileUrl: string
-  isMe: boolean
-  relationType: string
-  creatorType: string
-}
-
-type Sticker = {
-  stickerPack: StickerPack
-  user: User
-  packId: string
-  resourceUrl: string
-  packName: string
-  sid: string
-  animated: boolean
-  liked: boolean
-  viewCount: number
-  isAnimated: boolean
-}
-
-type StickerSearchResponse = {
-  result: {
-    stickers: Sticker[]
-    size: number
-  }
-}
+import { mapSticker } from './utils'
+import type { StickerSearchResponse } from './utils'
 
 export default defineCachedEventHandler(async (event) => {
   const query = getQuery(event)
@@ -96,28 +56,7 @@ export default defineCachedEventHandler(async (event) => {
     }
   })
 
-  const stickers = response.result.stickers.map(sticker => ({
-    id: sticker.sid,
-    url: sticker.resourceUrl,
-    isAnimated: sticker.isAnimated,
-    views: sticker.viewCount,
-    pack: {
-      id: sticker.packId,
-      name: sticker.stickerPack.name.trim(),
-      thumbnail: sticker.stickerPack.trayResourceUrl,
-      isNsfw: sticker.stickerPack.nsfwScore > 0,
-      nsfwScore: sticker.stickerPack.nsfwScore,
-      stickerUrls: sticker.stickerPack.resourceFileNames.map(fileName =>
-        sticker.resourceUrl.substring(0, sticker.resourceUrl.lastIndexOf('/')) + '/' + fileName
-      )
-    },
-    user: {
-      id: sticker.user?.oid || null,
-      name: sticker.user?.userName.trim() || null,
-      isOfficial: sticker.user?.isOfficial || false,
-      profileUrl: sticker.user?.profileUrl || null
-    }
-  }))
+  const stickers = response.result.stickers.map(mapSticker)
 
   // Calculate meta.pagination
   const total = response.result.size
