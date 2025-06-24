@@ -1,8 +1,3 @@
-import type { StickerRecommendResponse } from '~~/server/utils/types'
-import { useFormatter } from '~~/server/utils/responseFormatter'
-import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
-import { useMapSticker } from '~~/server/utils/mapSticker'
-
 export default defineCachedEventHandler(async () => {
   const response: StickerRecommendResponse = await useStickerlyApi(`sticker/recommend`)
 
