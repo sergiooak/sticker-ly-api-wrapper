@@ -38,15 +38,13 @@ type StickerRelatedResponse = {
   }
 }
 
-export default defineEventHandler(async (event) => {
+export default defineCachedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const apiBaseUrl = 'https://api.sticker.ly/'
   const version = 'v4'
   const endpoint = `sticker/related?sid=${id}`
 
   const url = `${apiBaseUrl}${version}/${endpoint}`
-
-  console.log('Test endpoint hit:', url)
 
   // request to the Sticker.ly API
   const response: StickerRelatedResponse = await $fetch(url, {
@@ -55,9 +53,6 @@ export default defineEventHandler(async (event) => {
       'User-Agent': 'androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)'
     }
   })
-
-  // Log the response for debugging
-  console.log('Response from Sticker.ly API:', response)
 
   const data = response.result.stickers.map(sticker => ({
     id: sticker.sid,
@@ -83,4 +78,5 @@ export default defineEventHandler(async (event) => {
   }))
 
   return useFormatter(true, `Found ${data.length} related stickers`, data)
-})
+}, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })
+// 1 minute cache, 1 hour stale cache
