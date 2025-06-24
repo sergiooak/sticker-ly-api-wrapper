@@ -1,25 +1,23 @@
-import type { StickerPackRecommendedResponse } from '~~/server/utils/types'
-import { useFormatter } from '~~/server/utils/responseFormatter'
-import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
-import { useMapPack } from '~~/server/utils/mapPack'
+export default defineCachedEventHandler(
+  async () => {
+    try {
+      const apiResponse = await useStickerlyApi<StickerPackRecommendedResponse>('stickerPack/recommend')
 
-export default defineCachedEventHandler(async () => {
-  try {
-    const response = await useStickerlyApi<StickerPackRecommendedResponse>('stickerPack/recommend')
+      const recommendedPacks = apiResponse.result.stickerPacks.map(useMapPack)
+      const paidPacks = apiResponse.result.paidStickerPacks?.map(useMapPack) ?? []
 
-    const packs = response.result.stickerPacks.map(useMapPack)
+      const result = { recommendedPacks, paidPacks }
+      const infoMessage = `Found ${recommendedPacks.length} recommended packs and ${paidPacks.length} premium packs`
 
-    const premiumPacks = response.result.paidStickerPacks?.map(useMapPack) || []
-    const data = {
-      packs,
-      premiumPacks
+      return useFormatter(true, infoMessage, result)
+    } catch (error) {
+      console.error('Error fetching recommended sticker packs:', error)
+      return useFormatter(false, 'Failed to fetch recommended sticker packs', null, error)
     }
-
-    const message = `Found ${packs.length} recommended packs and ${premiumPacks.length} premium packs`
-    return useFormatter(true, message, data)
-  } catch (error) {
-    console.error('Error fetching recommended sticker packs:', error)
-    return useFormatter(false, 'Failed to fetch recommended sticker packs', null, error)
+  },
+  {
+    swr: true,
+    maxAge: 60, // 1 minute cache
+    staleMaxAge: 60 * 60 // 1 hour stale cache
   }
-}, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })
-// 1 minute cache, 1 hour stale cache
+)
