@@ -1,3 +1,8 @@
+import type { StickerRelatedResponse } from '~~/server/utils/types'
+import { useFormatter } from '~~/server/utils/responseFormatter'
+import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
+import { useMapSticker } from '~~/server/utils/mapSticker'
+
 export default defineCachedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
 

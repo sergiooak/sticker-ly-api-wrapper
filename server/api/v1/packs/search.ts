@@ -1,3 +1,8 @@
+import type { SearchPackResponse } from '~~/server/utils/types'
+import { useFormatter } from '~~/server/utils/responseFormatter'
+import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
+import { useMapPack } from '~~/server/utils/mapPack'
+
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event)
@@ -21,7 +26,8 @@ export default defineEventHandler(async (event) => {
 
     const data = {
       packs,
-      total: response.result.total || packs.length,
+      total: packs.length,
+      hasMore: response.result.hasMore,
       query
     }
 

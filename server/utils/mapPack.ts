@@ -1,4 +1,6 @@
-export function useMapPack(pack: StickerPackRecommended | StickerPackResult) {
+import type { StickerPackDetailed, StickerPackResult, OfficialUser } from './types'
+
+export function useMapPack(pack: StickerPackDetailed | StickerPackResult) {
   return {
     id: pack.packId,
     name: pack.name?.trim(),
@@ -11,10 +13,10 @@ export function useMapPack(pack: StickerPackRecommended | StickerPackResult) {
     ),
     user: 'user' in pack && pack.user
       ? {
-          id: pack.user.oid || null,
-          name: pack.user.userName?.trim() || null,
-          isOfficial: pack.user.isOfficial || false,
-          profileUrl: pack.user.profileUrl || null
+          id: (pack.user as OfficialUser).oid || null,
+          name: (pack.user as OfficialUser).userName?.trim() || null,
+          isOfficial: (pack.user as OfficialUser).isOfficial || false,
+          profileUrl: (pack.user as OfficialUser).profileUrl || null
         }
       : null
   }

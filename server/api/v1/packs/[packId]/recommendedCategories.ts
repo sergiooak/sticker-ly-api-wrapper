@@ -1,3 +1,7 @@
+import type { RecommendedPackCategoriesResponse } from '~~/server/utils/types'
+import { useFormatter } from '~~/server/utils/responseFormatter'
+import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
+
 export default defineCachedEventHandler(async (event) => {
   try {
     const packId = event.context.params?.packId

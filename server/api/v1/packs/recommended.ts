@@ -1,10 +1,15 @@
+import type { StickerPackRecommendedResponse } from '~~/server/utils/types'
+import { useFormatter } from '~~/server/utils/responseFormatter'
+import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
+import { useMapPack } from '~~/server/utils/mapPack'
+
 export default defineCachedEventHandler(async () => {
   try {
     const response = await useStickerlyApi<StickerPackRecommendedResponse>('stickerPack/recommend')
 
     const packs = response.result.stickerPacks.map(useMapPack)
 
-    const premiumPacks = response.result.paidStickerPacks.map(useMapPack)
+    const premiumPacks = response.result.paidStickerPacks?.map(useMapPack) || []
     const data = {
       packs,
       premiumPacks

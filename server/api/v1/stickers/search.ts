@@ -1,3 +1,8 @@
+import type { StickerSearchResponse } from '~~/server/utils/types'
+import { useFormatter } from '~~/server/utils/responseFormatter'
+import { useStickerlyApi } from '~~/server/utils/stickerlyApi'
+import { useMapSticker } from '~~/server/utils/mapSticker'
+
 export default defineCachedEventHandler(async (event) => {
   const query = getQuery(event)
   // Strapi-style pagination
@@ -50,7 +55,7 @@ export default defineCachedEventHandler(async (event) => {
   const stickers = response.result.stickers.map(useMapSticker)
 
   // Calculate meta.pagination
-  const total = response.result.size
+  const total = response.result.size || 0
   const pageCount = Math.ceil(total / pageSize)
   const meta = {
     keyword: {

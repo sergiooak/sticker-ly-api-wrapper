@@ -1,81 +1,47 @@
-// Types for stickers endpoints
+// Base types for shared properties
 
-export type StickerPack = {
+export type BaseUser = {
+  oid: string
+  userName: string
+  profileUrl: string
+  creatorType: string
+}
+
+export type User = BaseUser & {
+  isOfficial?: boolean
+  isMe?: boolean
+  relationType?: string
+}
+
+export type OfficialUser = BaseUser & {
+  isOfficial: boolean
+}
+
+// Sticker pack types
+export type BaseStickerPack = {
   isPaid: boolean
-  trayResourceUrl: string
   packId: string
+  thumb: boolean
+  name: string
+}
+
+export type StickerPack = BaseStickerPack & {
+  trayResourceUrl: string
   nsfwScore: number
   resourceFileNames: string[]
   stickerCount: number
-  thumb: boolean
   status: string
-  name: string
   private: boolean
 }
 
-export type User = {
-  oid: string
-  userName: string
-  isOfficial?: boolean
-  profileUrl: string
-  isMe?: boolean
-  relationType?: string
-  creatorType: string
-}
-
-export type Sticker = {
-  stickerPack: StickerPack
-  user: User
-  packId: string
-  resourceUrl: string
-  packName: string
-  sid: string
-  animated: boolean
-  liked: boolean
-  viewCount: number
-  isAnimated: boolean
-}
-
-export type StickerSearchResponse = {
-  result: {
-    stickers: Sticker[]
-    size: number
-  }
-}
-
-export type StickerRecommendResponse = {
-  result: {
-    stickers: Sticker[]
-  }
-}
-
-export type StickerRelatedResponse = {
-  result: {
-    stickers: Sticker[]
-  }
-}
-
-export type StickerPackRecommendedUser = {
-  oid: string
-  userName: string
-  isOfficial: boolean
-  profileUrl: string
-  creatorType: string
-}
-
-export type StickerPackRecommended = {
-  user: StickerPackRecommendedUser
-  isPaid: boolean
-  packId: string
+export type StickerPackDetailed = BaseStickerPack & {
   animated: boolean
   trayIndex: number
   viewCount: number
   authorName: string
-  resourceFiles: string[]
   exportCount: number
   isOfficial: boolean
   website: string
-  thumb: boolean
   endNewmarkDate?: number
   isAnimated: boolean
   shareUrl: string
@@ -84,30 +50,54 @@ export type StickerPackRecommended = {
   resourceZip: string
   updated: number
   owner: string
-  name: string
+  resourceFiles: string[]
 }
 
-export type StickerPackRecommendedResponse = {
-  result: {
-    stickerPacks: StickerPackRecommended[]
-    paidStickerPacks: StickerPackRecommended[]
-    boardId: number
-  }
-}
-
-// Types for specific pack details
-export type StickerPackDetailSticker = {
+// Sticker types
+export type BaseSticker = {
+  sid: string
+  animated: boolean
+  isAnimated: boolean
+  viewCount: number
   liked: boolean
+}
+
+export type Sticker = BaseSticker & {
+  stickerPack: StickerPack
+  user: User
+  packId: string
+  resourceUrl: string
+  packName: string
+}
+
+export type StickerDetail = BaseSticker & {
   stickerPack: StickerPack
   fileName: string
-  animated: boolean
-  viewCount: number
-  sid: string
-  isAnimated: boolean
+}
+
+// API response types with generics to reduce repetition
+export type ApiResponse<T> = {
+  result: T
+}
+
+export type StickerListResult = {
+  stickers: Sticker[]
+  size?: number
+}
+
+export type StickerPackListResult = {
+  stickerPacks: StickerPackDetailed[]
+  paidStickerPacks?: StickerPackDetailed[]
+  boardId?: number
+}
+
+export type StickerPackSearchResult = {
+  stickerPacks: StickerPackDetailed[]
+  hasMore: boolean
 }
 
 export type StickerPackResult = {
-  stickers: StickerPackDetailSticker[]
+  stickers: StickerDetail[]
   packId: string
   exportCount: number
   animated: boolean
@@ -127,17 +117,27 @@ export type StickerPackResult = {
   name: string
 }
 
-export type StickerPackResponse = {
-  result: StickerPackResult
+export type CategoryResult = {
+  categories: {
+    id: string
+    name: string
+    stickerCount: number
+  }[]
 }
 
-// Type for recommended categories
-export type RecommendedPackCategoriesResponse = {
-  result: {
-    categories: {
-      id: string
-      name: string
-      stickerCount: number
-    }[]
-  }
+// Specific response types using generics
+export type StickerSearchResponse = ApiResponse<StickerListResult>
+export type StickerRecommendResponse = ApiResponse<StickerListResult>
+export type StickerRelatedResponse = ApiResponse<StickerListResult>
+export type StickerPackRecommendedResponse = ApiResponse<StickerPackListResult>
+export type StickerPackResponse = ApiResponse<StickerPackResult>
+export type SearchPackResponse = ApiResponse<StickerPackSearchResult>
+export type RecommendedPackCategoriesResponse = ApiResponse<CategoryResult>
+
+// Keeping old type for backward compatibility
+export type StickerPackRecommended = StickerPackDetailed & {
+  user: OfficialUser
 }
+
+export type StickerPackRecommendedUser = OfficialUser
+export type StickerPackDetailSticker = StickerDetail
