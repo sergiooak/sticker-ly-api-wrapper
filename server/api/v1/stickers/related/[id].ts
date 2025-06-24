@@ -1,6 +1,3 @@
-import { mapSticker } from '../utils'
-import type { StickerRelatedResponse } from '../utils'
-
 export default defineCachedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const apiBaseUrl = 'https://api.sticker.ly/'
@@ -17,7 +14,7 @@ export default defineCachedEventHandler(async (event) => {
     }
   })
 
-  const data = response.result.stickers.map(mapSticker)
+  const data = response.result.stickers.map(useMapSticker)
 
   return useFormatter(true, `Found ${data.length} related stickers`, data)
 }, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })

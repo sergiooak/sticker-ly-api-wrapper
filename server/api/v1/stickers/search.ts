@@ -1,6 +1,3 @@
-import { mapSticker } from './utils'
-import type { StickerSearchResponse } from './utils'
-
 export default defineCachedEventHandler(async (event) => {
   const query = getQuery(event)
   // Strapi-style pagination
@@ -56,7 +53,7 @@ export default defineCachedEventHandler(async (event) => {
     }
   })
 
-  const stickers = response.result.stickers.map(mapSticker)
+  const stickers = response.result.stickers.map(useMapSticker)
 
   // Calculate meta.pagination
   const total = response.result.size
