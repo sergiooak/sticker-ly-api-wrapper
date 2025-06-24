@@ -1,70 +1,84 @@
-export default defineCachedEventHandler(async (event) => {
-  const query = getQuery(event)
-  // Strapi-style pagination
-  const page = parseInt(query['pagination[page]'] as string) || 1
-  const pageSize = parseInt(query['pagination[pageSize]'] as string) || 10
-  const keyword = (query['keyword'] as string) || ''
+export default defineCachedEventHandler(
+  async (event) => {
+    try {
+      const query = getQuery(event)
+      // Strapi-style pagination
+      const page = Number(query['pagination[page]']) || 1
+      const pageSize = Number(query['pagination[pageSize]']) || 10
+      const keyword = (query['keyword'] as string)?.trim() || ''
 
-  if (!keyword) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Keyword is required'
-    })
-  }
+      if (!keyword) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: 'Keyword is required'
+        })
+      }
 
-  // Parse keywor like: input => Atenção Pessoal!
-  // output: atenção pessoal | atencao pessoal | atencao | pessoal | country:BR
-  // is the original keyword but lowercased and removed things that is not a letter or number, tem separate byt pipe the samething but with accents removed, then split this second and put each word separeted by a pipe, and at the end add country:BR
-  const lowercasedKeyword = keyword.trim().toLowerCase()
-  // const lowercasedKeywordOnlyLettersAndNumbers = lowercasedKeyword.replace(/[^\p{L}\p{N}\s]/gu, '').trim()
-  if (lowercasedKeyword.length === 0) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'Keyword must contain at least one letter or number'
-    })
-  }
-  const lowercasedKeywordWithoutAccents = lowercasedKeyword.normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim()
-  const keywordParts = lowercasedKeywordWithoutAccents.split(/\s+/).filter(Boolean)
-  const normalizedKeyword = keywordParts.join(' | ')
-  const country = 'country:BR' // Default country code, can be changed based on
-  const finalKeyword = `${lowercasedKeyword} | ${lowercasedKeywordWithoutAccents} | ${normalizedKeyword} | ${country}`
+      const lowercasedKeyword = keyword.trim().toLowerCase()
+      if (lowercasedKeyword.length === 0) {
+        throw createError({
+          statusCode: 400,
+          statusMessage: 'Keyword must contain at least one letter or number'
+        })
+      }
 
-  // Calculate cursor and limit for sticker.ly API
-  const cursor = page
-  const limit = pageSize
+      const lowercasedKeywordWithoutAccents = lowercasedKeyword
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
 
-  // request to the Sticker.ly API
-  const response: StickerSearchResponse = await useStickerlyApi('sticker/searchV2', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: {
-      keyword: finalKeyword,
-      size: pageSize,
-      cursor,
-      limit
+      const keywordParts = lowercasedKeywordWithoutAccents
+        .split(/\s+/)
+        .filter(Boolean)
+
+      const normalizedKeyword = keywordParts.join(' | ')
+      const country = 'country:BR'
+      const finalKeyword = [
+        lowercasedKeyword,
+        lowercasedKeywordWithoutAccents,
+        normalizedKeyword,
+        country
+      ].join(' | ')
+
+      // Sticker.ly API request
+      const response: StickerSearchResponse = await useStickerlyApi('sticker/searchV2', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+          keyword: finalKeyword,
+          size: pageSize,
+          cursor: page,
+          limit: pageSize
+        }
+      })
+
+      const stickers = response.result.stickers.map(useMapSticker)
+
+      // Pagination meta
+      const total = response.result.size || 0
+      const pageCount = Math.ceil(total / pageSize)
+      const meta = {
+        keyword: {
+          original: keyword,
+          improved: finalKeyword
+        },
+        pagination: {
+          page,
+          pageSize,
+          pageCount,
+          total
+        }
+      }
+
+      return useFormatter(true, `Found ${stickers.length} stickers for "${keyword}"`, stickers, { meta })
+    } catch (error) {
+      console.error('Error searching stickers:', error)
+      return useFormatter(false, 'Failed to search stickers', null, error)
     }
-  })
-
-  const stickers = response.result.stickers.map(useMapSticker)
-
-  // Calculate meta.pagination
-  const total = response.result.size || 0
-  const pageCount = Math.ceil(total / pageSize)
-  const meta = {
-    keyword: {
-      original: keyword,
-      improved: finalKeyword
-    },
-    pagination: {
-      page,
-      pageSize,
-      pageCount,
-      total
-    }
+  },
+  {
+    swr: true,
+    maxAge: 60, // 1 minute cache
+    staleMaxAge: 60 * 60 // 1 hour stale cache
   }
-
-  return useFormatter(true, `Found ${stickers.length} stickers for "${keyword}"`, stickers, { meta: meta })
-}, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })
-// 1 minute cache, 1 hour stale cache
+)
