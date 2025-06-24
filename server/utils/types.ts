@@ -155,3 +155,15 @@ export type StickerPackRecommended = StickerPackDetailed & {
 
 export type StickerPackRecommendedUser = OfficialUser
 export type StickerPackDetailSticker = StickerDetail
+
+export type TrendingTag = {
+  keyword: string
+  isNew: boolean
+  image: string
+}
+
+export type TrendingTagsResponse = {
+  result: {
+    keywords: TrendingTag[]
+  }
+}
