@@ -1,44 +1,10 @@
-export default defineEventHandler(async (_event) => {
+export default defineCachedEventHandler(async () => {
   try {
     const response = await useStickerlyApi<StickerPackRecommendedResponse>('stickerPack/recommend')
 
-    const packs = response.result.stickerPacks.map((pack) => {
-      return {
-        id: pack.packId,
-        name: pack.name?.trim(),
-        isAnimated: pack.isAnimated,
-        isPaid: pack.isPaid,
-        views: pack.viewCount,
-        stickerUrls: (pack.resourceFiles || []).map((fileName: string) =>
-          pack.resourceUrlPrefix + fileName
-        ),
-        user: {
-          id: pack.user?.oid || null,
-          name: pack.user?.userName?.trim() || null,
-          isOfficial: pack.user?.isOfficial || false,
-          profileUrl: pack.user?.profileUrl || null
-        }
-      }
-    })
+    const packs = response.result.stickerPacks.map(useMapPack)
 
-    const premiumPacks = response.result.paidStickerPacks.map((pack) => {
-      return {
-        id: pack.packId,
-        name: pack.name?.trim(),
-        isAnimated: pack.isAnimated,
-        isPaid: pack.isPaid,
-        views: pack.viewCount,
-        stickerUrls: (pack.resourceFiles || []).map((fileName: string) =>
-          pack.resourceUrlPrefix + fileName
-        ),
-        user: {
-          id: pack.user?.oid || null,
-          name: pack.user?.userName?.trim() || null,
-          isOfficial: pack.user?.isOfficial || false,
-          profileUrl: pack.user?.profileUrl || null
-        }
-      }
-    })
+    const premiumPacks = response.result.paidStickerPacks.map(useMapPack)
     const data = {
       packs,
       premiumPacks
@@ -50,4 +16,5 @@ export default defineEventHandler(async (_event) => {
     console.error('Error fetching recommended sticker packs:', error)
     return useFormatter(false, 'Failed to fetch recommended sticker packs', null, error)
   }
-})
+}, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })
+// 1 minute cache, 1 hour stale cache
