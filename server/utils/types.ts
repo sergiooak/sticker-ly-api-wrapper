@@ -229,3 +229,59 @@ export type StickerTagSearchResponse = {
     nextCursor?: string
   }
 }
+
+/** Raw artist type as received from Stickerly API. */
+export type StickerlyArtistRaw = {
+  oid: string
+  isPrivate: boolean
+  allowUserCollection: boolean
+  stickerCount: number
+  relationship: string
+  followerCount: number
+  followingCount: number
+  isOfficial: boolean
+  creatorType: string
+  bio: string
+  socialLink: string[]
+  newUser: boolean
+  isMe: boolean
+  shareUrl: string
+  profileUrl: string
+  coverUrl: string
+  userName: string
+  displayName: string
+}
+
+/** Wrapper for recommended user in trending search response. */
+export type RecommendUser = {
+  user: StickerlyArtistRaw
+}
+
+/** Trending search API response structure. */
+export type TrendingSearchResponse = {
+  result: {
+    recommendUsers: RecommendUser[]
+  }
+}
+
+/** Artist information for Stickerly. */
+export interface StickerlyArtist {
+  oid: string
+  isPrivate: boolean
+  allowUserCollection: boolean
+  stickerCount: number
+  relationship: string
+  followerCount: number
+  followingCount: number
+  isOfficial: boolean
+  creatorType: string
+  bio: string
+  socialLink: string[]
+  newUser: boolean
+  isMe: boolean
+  shareUrl: string
+  profileUrl: string
+  coverUrl: string
+  userName: string
+  displayName: string
+}
