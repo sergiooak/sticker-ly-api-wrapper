@@ -167,3 +167,9 @@ export type TrendingTagsResponse = {
     keywords: TrendingTag[]
   }
 }
+
+export type RecommendTagsResponse = {
+  result: {
+    recommendTags: string[]
+  }
+}
