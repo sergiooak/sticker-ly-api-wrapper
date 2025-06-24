@@ -1,10 +1,6 @@
 import type { StickerPackDetailed, OfficialUser } from './types'
 
 export function useMapPack(pack: StickerPackDetailed) {
-  // if the type is StickerPackResult console.log it
-
-  console.log('StickerPackResult:', pack)
-
   return {
     id: pack.packId,
     name: pack.name?.trim(),
