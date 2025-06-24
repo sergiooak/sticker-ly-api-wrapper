@@ -266,22 +266,15 @@ export type TrendingSearchResponse = {
 
 /** Artist information for Stickerly. */
 export interface StickerlyArtist {
-  oid: string
-  isPrivate: boolean
-  allowUserCollection: boolean
+  id: string
+  name: string
+  username: string
+  bio: string
   stickerCount: number
-  relationship: string
   followerCount: number
   followingCount: number
   isOfficial: boolean
   creatorType: string
-  bio: string
-  socialLink: string[]
-  newUser: boolean
-  isMe: boolean
-  shareUrl: string
   profileUrl: string
   coverUrl: string
-  userName: string
-  displayName: string
 }
