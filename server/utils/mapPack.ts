@@ -1,4 +1,4 @@
-import type { StickerPackDetailed, StickerPackResult, OfficialUser } from './types'
+import type { StickerPackDetailed, OfficialUser } from './types'
 
 export function useMapPack(pack: StickerPackDetailed) {
   // if the type is StickerPackResult console.log it
