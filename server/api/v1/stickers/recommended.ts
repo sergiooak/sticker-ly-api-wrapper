@@ -47,8 +47,6 @@ export default defineCachedEventHandler(async () => {
 
   const url = `${apiBaseUrl}${version}/${endpoint}`
 
-  console.log('Test endpoint hit:', url)
-
   // request to the Sticker.ly API
   const response: StickerRecommendResponse = await $fetch(url, {
     method: 'GET',
@@ -56,9 +54,6 @@ export default defineCachedEventHandler(async () => {
       'User-Agent': 'androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)'
     }
   })
-
-  // Log the response for debugging
-  console.log('Response from Sticker.ly API:', response)
 
   const data = response.result.stickers.map(sticker => ({
     id: sticker.sid,
@@ -84,4 +79,5 @@ export default defineCachedEventHandler(async () => {
   }))
 
   return useFormatter(true, `Found ${data.length} recommended stickers`, data)
-}, { swr: true, maxAge: 5, staleMaxAge: 60 * 60 })
+}, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })
+// 1 minute cache, 1 hour stale cache
