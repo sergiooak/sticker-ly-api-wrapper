@@ -125,6 +125,20 @@ export type CategoryResult = {
   }[]
 }
 
+export type RecommendedPackCategory = {
+  title: string
+  stickerPacks: (StickerPackDetailed & {
+    categoryType: string
+    subCategoryType: string
+    fullCategoryPath: string
+    user: User
+  })[]
+}
+
+export type RecommendedPackCategoriesResult = {
+  recommendedPackCategories: RecommendedPackCategory[]
+}
+
 // Specific response types using generics
 export type StickerSearchResponse = ApiResponse<StickerListResult>
 export type StickerRecommendResponse = ApiResponse<StickerListResult>
@@ -132,7 +146,7 @@ export type StickerRelatedResponse = ApiResponse<StickerListResult>
 export type StickerPackRecommendedResponse = ApiResponse<StickerPackListResult>
 export type StickerPackResponse = ApiResponse<StickerPackResult>
 export type SearchPackResponse = ApiResponse<StickerPackSearchResult>
-export type RecommendedPackCategoriesResponse = ApiResponse<CategoryResult>
+export type RecommendedPackCategoriesResponse = ApiResponse<RecommendedPackCategoriesResult>
 
 // Keeping old type for backward compatibility
 export type StickerPackRecommended = StickerPackDetailed & {
