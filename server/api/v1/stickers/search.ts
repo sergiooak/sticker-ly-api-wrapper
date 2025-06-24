@@ -33,17 +33,11 @@ export default defineCachedEventHandler(async (event) => {
   const cursor = page
   const limit = pageSize
 
-  const apiBaseUrl = 'https://api.sticker.ly/'
-  const version = 'v4'
-  const endpoint = 'sticker/searchV2'
-  const url = `${apiBaseUrl}${version}/${endpoint}`
-
   // request to the Sticker.ly API
-  const response: StickerSearchResponse = await $fetch(url, {
+  const response: StickerSearchResponse = await useStickerlyApi('sticker/searchV2', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'User-Agent': 'androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)'
+      'Content-Type': 'application/json'
     },
     body: {
       keyword: finalKeyword,

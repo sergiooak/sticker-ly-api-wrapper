@@ -1,17 +1,5 @@
 export default defineCachedEventHandler(async () => {
-  const apiBaseUrl = 'https://api.sticker.ly/'
-  const version = 'v4'
-  const endpoint = 'sticker/recommend'
-
-  const url = `${apiBaseUrl}${version}/${endpoint}`
-
-  // request to the Sticker.ly API
-  const response: StickerRecommendResponse = await $fetch(url, {
-    method: 'GET',
-    headers: {
-      'User-Agent': 'androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)'
-    }
-  })
+  const response: StickerRecommendResponse = await useStickerlyApi(`sticker/recommend`)
 
   const data = response.result.stickers.map(useMapSticker)
 
