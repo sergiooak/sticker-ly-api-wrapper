@@ -4,7 +4,6 @@ export default defineEventHandler(
       const response = await useFetchApi<HomeTabOverviewResponse>('hometab/overview', {
         method: 'GET'
       })
-      console.log('Home tab overview response:', response)
       return useFormatter(true, 'Fetched home tab overview', response.result?.hometabs.map(tab => ({
         id: tab.id,
         title: tab.title,
