@@ -7,7 +7,7 @@ export default defineCachedEventHandler(
     }
 
     try {
-      const response = await useStickerlyApi<RecommendedPackCategoriesResponse>(
+      const response = await useFetchApi<RecommendedPackCategoriesResponse>(
         `stickerPack/${packId}/recommendedCategories`
       )
 

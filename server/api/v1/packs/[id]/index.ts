@@ -7,7 +7,7 @@ export default defineCachedEventHandler(
         return useFormatter(false, 'Pack ID is required', null)
       }
 
-      const response: StickerPackResponse = await useStickerlyApi(
+      const response: StickerPackResponse = await useFetchApi(
         `stickerPack/${packId}`
       )
 

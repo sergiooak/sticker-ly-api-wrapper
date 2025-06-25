@@ -1,7 +1,7 @@
 export default defineCachedEventHandler(
   async () => {
     try {
-      const apiResponse = await useStickerlyApi<TrendingTagsResponse>('trending/search', { method: 'POST' })
+      const apiResponse = await useFetchApi<TrendingTagsResponse>('trending/search', { method: 'POST' })
       const tags: TrendingTag[] = apiResponse.result.keywords || []
       return useFormatter(true, 'Trending tags fetched successfully', tags)
     } catch (error) {

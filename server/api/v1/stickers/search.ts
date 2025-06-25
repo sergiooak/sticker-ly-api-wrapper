@@ -41,7 +41,7 @@ export default defineCachedEventHandler(
       ].join(' | ')
 
       // Sticker.ly API request
-      const response: StickerSearchResponse = await useStickerlyApi('sticker/searchV2', {
+      const response: StickerSearchResponse = await useFetchApi('sticker/searchV2', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: {

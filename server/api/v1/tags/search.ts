@@ -22,7 +22,7 @@ export default defineCachedEventHandler(
       }
 
       // Sticker.ly API request
-      const apiResponse = await useStickerlyApi<StickerTagSearchResponse>('stickerTag/search', {
+      const apiResponse = await useFetchApi<StickerTagSearchResponse>('stickerTag/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: {

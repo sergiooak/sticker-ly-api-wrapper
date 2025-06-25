@@ -5,7 +5,7 @@ export default defineEventHandler(
       if (!id) {
         throw new Error('Missing home tab id')
       }
-      const response = await useStickerlyApi<HomeTabPacksResponse>(`hometab/${id}/packs`, { method: 'GET' })
+      const response = await useFetchApi<HomeTabPacksResponse>(`hometab/${id}/packs`, { method: 'GET' })
       const packs = (response.result?.stickerPacks || []).map(useMapPack)
       return useFormatter(true, 'Fetched home tab packs', packs)
     } catch (error) {

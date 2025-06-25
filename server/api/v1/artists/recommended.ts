@@ -1,7 +1,7 @@
 export default defineCachedEventHandler(
   async () => {
     try {
-      const response = await useStickerlyApi<{ result: { recommendArtists: { user: StickerlyArtistRaw }[] } }>(
+      const response = await useFetchApi<{ result: { recommendArtists: { user: StickerlyArtistRaw }[] } }>(
         'artist/recommend',
         { method: 'POST' }
       )

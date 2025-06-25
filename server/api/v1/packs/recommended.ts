@@ -1,7 +1,7 @@
 export default defineCachedEventHandler(
   async () => {
     try {
-      const apiResponse = await useStickerlyApi<StickerPackRecommendedResponse>('stickerPack/recommend')
+      const apiResponse = await useFetchApi<StickerPackRecommendedResponse>('stickerPack/recommend')
 
       const packs = apiResponse.result.stickerPacks.map(useMapPack)
       const premium = apiResponse.result.paidStickerPacks?.map(useMapPack) ?? []

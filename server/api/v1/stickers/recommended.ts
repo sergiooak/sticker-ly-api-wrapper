@@ -1,5 +1,5 @@
 export default defineCachedEventHandler(async () => {
-  const response: StickerRecommendResponse = await useStickerlyApi(`sticker/recommend`)
+  const response: StickerRecommendResponse = await useFetchApi(`sticker/recommend`)
 
   const data = response.result.stickers.map(useMapSticker)
 

@@ -1,7 +1,7 @@
 export default defineCachedEventHandler(async (event) => {
   const { id } = getRouterParams(event)
 
-  const response: StickerRelatedResponse = await useStickerlyApi(`sticker/related?sid=${id}`)
+  const response: StickerRelatedResponse = await useFetchApi(`sticker/related?sid=${id}`)
 
   const data = response.result.stickers.map(useMapSticker)
 

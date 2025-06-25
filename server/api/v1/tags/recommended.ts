@@ -1,7 +1,7 @@
 export default defineCachedEventHandler(
   async () => {
     try {
-      const apiResponse = await useStickerlyApi<RecommendTagsResponse>('sticker/tag/recommend', { method: 'GET' })
+      const apiResponse = await useFetchApi<RecommendTagsResponse>('sticker/tag/recommend', { method: 'GET' })
       const tags: string[] = apiResponse.result.recommendTags || []
       return useFormatter(true, 'Recommended tags fetched successfully', tags)
     } catch (error) {

@@ -1,7 +1,7 @@
 export default defineEventHandler(
   async () => {
     try {
-      const response = await useStickerlyApi<HomeTabOverviewResponse>('hometab/overview', {
+      const response = await useFetchApi<HomeTabOverviewResponse>('hometab/overview', {
         method: 'GET'
       })
       console.log('Home tab overview response:', response)
