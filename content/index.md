@@ -68,12 +68,12 @@ Why Use the Sticker.ly API Wrapper?
   :::u-page-feature
   ---
   icon: i-lucide-sparkles
-  to: /endpoints/misc#trending
+  to: /endpoints/tags#trending
   ---
   #title
-  Trending & Recommended
+  Trending Tags
   #description
-  Access trending stickers and packs, plus discover recommended artists.
+  Access trending tags and discover recommended tags and artists.
   :::
 
   :::u-page-feature
@@ -89,24 +89,24 @@ Why Use the Sticker.ly API Wrapper?
 
   :::u-page-feature
   ---
-  icon: i-lucide-home
-  to: /endpoints/home-tab#overview
+  icon: i-lucide-link-2
+  to: /endpoints/stickers#related-by-id
   ---
   #title
-  Home Tab Overview
+  Related Stickers
   #description
-  Get an overview of the home tab and access packs or stickers by tab ID.
+  Find stickers and packs related to your favorites or searches by ID.
   :::
 
   :::u-page-feature
   ---
-  icon: i-lucide-link-2
-  to: /endpoints/stickers#related
+  icon: i-lucide-user
+  to: /endpoints/artists#recommended
   ---
   #title
-  Related Content
+  Recommended Artists
   #description
-  Find stickers and packs related to your favorites or searches.
+  Discover recommended and trending artists.
   :::
 
 ::u-separator
