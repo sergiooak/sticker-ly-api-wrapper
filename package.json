@@ -1,6 +1,32 @@
 {
-  "name": "nuxt-ui-pro-template-docs",
+  "name": "sticker-ly-api-wrapper",
+  "version": "1.0.0",
   "private": true,
+  "description": "Sticker.ly API Wrapper: Effortlessly search, discover, and integrate Sticker.ly stickers, packs, tags, and artists into your apps.",
+  "author": {
+    "name": "Sergio Carvalho",
+    "email": "sergiopcn@gmail.com",
+    "url": "https://sergiooak.com.br"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sergiooak/sticker-ly-api-wrapper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sergiooak/sticker-ly-api-wrapper/issues"
+  },
+  "homepage": "https://sticker-ly-api-wrapper.com",
+  "keywords": [
+    "nuxt",
+    "documentation",
+    "stickers",
+    "api",
+    "sticker-ly",
+    "http api",
+    "packs",
+    "tags",
+    "artists"
+  ],
   "type": "module",
   "scripts": {
     "build": "nuxt build",
@@ -31,5 +57,6 @@
   },
   "resolutions": {
     "unimport": "4.1.1"
-  }
+  },
+  "license": "MIT"
 }
