@@ -278,3 +278,28 @@ export interface StickerlyArtist {
   profileUrl: string
   coverUrl: string
 }
+
+// ==========================
+// Home Tab Types
+// ==========================
+
+export type HomeTabOverview = {
+  layoutType: string
+  keyword: string
+  contentType: string
+  limit: number
+  title: string
+  id: number
+}
+
+export type HomeTabOverviewResponse = {
+  result: {
+    hometabs: HomeTabOverview[]
+  }
+}
+
+export type HomeTabPacksResponse = {
+  result: {
+    stickerPacks: StickerPackDetailed[]
+  }
+}
