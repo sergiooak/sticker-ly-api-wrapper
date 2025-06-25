@@ -10,6 +10,7 @@ export default defineCachedEventHandler(
         keyword: tab.keyword
       })) || null)
     } catch (error) {
+      console.error('Error fetching home tab overview:', error)
       return useFormatter(false, 'Failed to fetch home tab overview', null, error)
     }
   },

@@ -5,6 +5,7 @@ export default defineCachedEventHandler(
       const tags: TrendingTag[] = apiResponse.result.keywords || []
       return useFormatter(true, 'Trending tags fetched successfully', tags)
     } catch (error) {
+      console.error('Error fetching trending tags:', error)
       return useFormatter(false, 'Failed to fetch trending tags', [], error)
     }
   },

@@ -9,6 +9,7 @@ export default defineCachedEventHandler(
       const packs = (response.result?.stickerPacks || []).map(useMapPack)
       return useFormatter(true, 'Fetched home tab packs', packs)
     } catch (error) {
+      console.error('Error fetching home tab packs:', error)
       return useFormatter(false, 'Failed to fetch home tab packs', null, error)
     }
   },

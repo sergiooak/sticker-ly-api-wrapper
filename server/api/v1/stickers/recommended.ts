@@ -5,6 +5,7 @@ export default defineCachedEventHandler(
       const data = response.result.stickers.map(useMapSticker)
       return useFormatter(true, `Found ${data.length} recommended stickers`, data)
     } catch (error) {
+      console.error('Error fetching recommended stickers:', error)
       return useFormatter(false, 'Failed to fetch recommended stickers', null, error)
     }
   },

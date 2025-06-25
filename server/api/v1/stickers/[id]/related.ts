@@ -6,6 +6,7 @@ export default defineCachedEventHandler(
       const data = response.result.stickers.map(useMapSticker)
       return useFormatter(true, `Found ${data.length} related stickers`, data)
     } catch (error) {
+      console.error('Error fetching related stickers:', error)
       return useFormatter(false, 'Failed to fetch related stickers', null, error)
     }
   },
