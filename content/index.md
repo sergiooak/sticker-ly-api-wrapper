@@ -1,7 +1,7 @@
 ---
 seo:
   title: Sticker.ly API Wrapper
-  description: A simple and easy-to-use API wrapper for Sticker.ly, search stickers, packs, and more.
+  description: Effortlessly search, discover, and integrate Sticker.ly stickers and packs into your apps with this unofficial API wrapper.
 ---
 
 ::u-page-hero
@@ -9,10 +9,10 @@ seo:
 orientation: vertical
 ---
 #title
-Effortless Sticker Search and Integration
+Sticker.ly API Wrapper
 
 #description
-The Unofficial Sticker.ly API Wrapper offers developers a seamless way to search, access, and integrate Sticker.ly stickers and packs into applications. Enhance your projects with Sticker.ly content using this easy-to-use, unofficial API solution.
+Unlock the full potential of Sticker.ly in your projects! This unofficial API wrapper makes it easy to search, access, and integrate Sticker.ly stickers, packs, and more. Perfect for developers looking to enhance their apps with rich sticker content.
 
 #links
   :::u-button
@@ -21,18 +21,17 @@ The Unofficial Sticker.ly API Wrapper offers developers a seamless way to search
   to: /getting-started
   trailing-icon: i-lucide-arrow-right
   ---
-  Get started
+  Get Started
   :::
-
   :::u-button
   ---
   color: neutral
   icon: i-simple-icons-github
   size: xl
-  to: /endpoints
+  to: https://github.com/sergiooak/sticker-ly-api-wrapper
   variant: subtle
   ---
-  Use this template
+  GitHub Repository
   :::
 ::
 
@@ -41,7 +40,7 @@ The Unofficial Sticker.ly API Wrapper offers developers a seamless way to search
 
 ::u-page-section
 #title
-Everything you need to use Sticker.ly API
+Why Use the Sticker.ly API Wrapper?
 
 #features
   :::u-page-feature
@@ -50,10 +49,9 @@ Everything you need to use Sticker.ly API
   to: /endpoints/stickers#search
   ---
   #title
-  Search Stickers
-
+  Powerful Sticker Search
   #description
-  Find stickers by keywords and get recommendations or related stickers.
+  Instantly find stickers by keyword, get recommendations, and explore related stickers.
   :::
 
   :::u-page-feature
@@ -62,10 +60,9 @@ Everything you need to use Sticker.ly API
   to: /endpoints/packs#search
   ---
   #title
-  Search Packs
-
+  Discover Sticker Packs
   #description
-  Browse sticker packs by keywords, ID, or discover related and recommended packs.
+  Browse packs by keyword or ID, and find related or recommended packs with ease.
   :::
 
   :::u-page-feature
@@ -75,9 +72,8 @@ Everything you need to use Sticker.ly API
   ---
   #title
   Trending & Recommended
-
   #description
-  Access trending stickers/packs and discover recommended artists.
+  Access trending stickers and packs, plus discover recommended artists.
   :::
 
   :::u-page-feature
@@ -87,9 +83,8 @@ Everything you need to use Sticker.ly API
   ---
   #title
   Tag Explorer
-
   #description
-  Search for tags and get tag recommendations to discover new sticker content.
+  Search for tags and get recommendations to discover new sticker content.
   :::
 
   :::u-page-feature
@@ -99,7 +94,6 @@ Everything you need to use Sticker.ly API
   ---
   #title
   Home Tab Overview
-
   #description
   Get an overview of the home tab and access packs or stickers by tab ID.
   :::
@@ -111,7 +105,27 @@ Everything you need to use Sticker.ly API
   ---
   #title
   Related Content
-
   #description
   Find stickers and packs related to your favorites or searches.
   :::
+
+::u-separator
+::
+
+::u-page-section
+#title
+Get Started in Minutes
+
+#description
+Check out the documentation to learn how to install, configure, and use the Sticker.ly API Wrapper in your project. Whether you want to search for stickers, browse packs, or explore trending content, everything you need is just a click away.
+
+#links
+  :::u-button
+  ---
+  size: lg
+  to: /getting-started
+  trailing-icon: i-lucide-arrow-right
+  ---
+  Read the Docs
+  :::
+::
