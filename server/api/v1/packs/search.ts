@@ -78,7 +78,7 @@ export default defineCachedEventHandler(
   },
   {
     swr: true,
-    maxAge: 60, // 1 minute cache
-    staleMaxAge: 60 * 60 // 1 hour stale cache
+    maxAge: 30, // 30 seconds cache
+    staleMaxAge: 60 * 30 // 30 minutes stale cache
   }
 )
