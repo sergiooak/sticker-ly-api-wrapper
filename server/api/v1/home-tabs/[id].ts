@@ -1,4 +1,4 @@
-export default defineEventHandler(
+export default defineCachedEventHandler(
   async (event) => {
     try {
       const id = event.context?.params?.id || event.req.url?.split('/').pop()
@@ -11,5 +11,10 @@ export default defineEventHandler(
     } catch (error) {
       return useFormatter(false, 'Failed to fetch home tab packs', null, error)
     }
+  },
+  {
+    swr: true,
+    maxAge: 60, // 1 minute cache
+    staleMaxAge: 60 * 60 // 1 hour stale cache
   }
 )

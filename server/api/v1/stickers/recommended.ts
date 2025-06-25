@@ -1,8 +1,16 @@
-export default defineCachedEventHandler(async () => {
-  const response: StickerRecommendResponse = await useFetchApi(`sticker/recommend`)
-
-  const data = response.result.stickers.map(useMapSticker)
-
-  return useFormatter(true, `Found ${data.length} recommended stickers`, data)
-}, { swr: true, maxAge: 60, staleMaxAge: 60 * 60 })
-// 1 minute cache, 1 hour stale cache
+export default defineCachedEventHandler(
+  async () => {
+    try {
+      const response: StickerRecommendResponse = await useFetchApi(`sticker/recommend`)
+      const data = response.result.stickers.map(useMapSticker)
+      return useFormatter(true, `Found ${data.length} recommended stickers`, data)
+    } catch (error) {
+      return useFormatter(false, 'Failed to fetch recommended stickers', null, error)
+    }
+  },
+  {
+    swr: true,
+    maxAge: 60,
+    staleMaxAge: 60 * 60
+  }
+)

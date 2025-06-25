@@ -1,4 +1,4 @@
-export default defineEventHandler(
+export default defineCachedEventHandler(
   async () => {
     try {
       const response = await useFetchApi<HomeTabOverviewResponse>('hometab/overview', {
@@ -12,5 +12,10 @@ export default defineEventHandler(
     } catch (error) {
       return useFormatter(false, 'Failed to fetch home tab overview', null, error)
     }
+  },
+  {
+    swr: true,
+    maxAge: 60, // 1 minute cache
+    staleMaxAge: 60 * 60 // 1 hour stale cache
   }
 )
