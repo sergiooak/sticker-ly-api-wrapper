@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'packs-recommended'
+    event.context.routePath = '/packs/recommended'
     try {
       const apiResponse = await useFetchApi<StickerPackRecommendedResponse>('stickerPack/recommend')
 

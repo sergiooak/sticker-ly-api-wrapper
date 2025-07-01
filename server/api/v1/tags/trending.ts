@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'tags-trending'
+    event.context.routePath = '/tags/trending'
     try {
       const apiResponse = await useFetchApi<TrendingTagsResponse>('trending/search', { method: 'POST' })
       const tags: TrendingTag[] = apiResponse.result.keywords || []

@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'stickers-search'
+    event.context.routePath = '/stickers/search'
     try {
       const query = getQuery(event)
       // Strapi-style pagination

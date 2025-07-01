@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'artists-recommended'
+    event.context.routePath = '/artists/recommended'
     try {
       const response = await useFetchApi<{ result: { recommendArtists: { user: StickerlyArtistRaw }[] } }>(
         'artist/recommend',

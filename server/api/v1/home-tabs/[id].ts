@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'home-tabs-id'
+    event.context.routePath = '/home-tabs/[id]'
     try {
       const id = event.context?.params?.id || event.req.url?.split('/').pop()
       if (!id) {

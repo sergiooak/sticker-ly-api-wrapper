@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'packs-id'
+    event.context.routePath = '/packs/[id]'
     try {
       const packId = event.context.params?.id
 

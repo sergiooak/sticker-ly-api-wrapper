@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'home-tabs-index'
+    event.context.routePath = '/home-tabs'
     try {
       const response = await useFetchApi<HomeTabOverviewResponse>('hometab/overview', {
         method: 'GET'

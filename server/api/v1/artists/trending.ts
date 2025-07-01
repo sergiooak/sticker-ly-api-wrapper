@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'artists-trending'
+    event.context.routePath = '/artists/trending'
     try {
       const response = await useFetchApi<TrendingSearchResponse>('trending/search', { method: 'POST' })
 

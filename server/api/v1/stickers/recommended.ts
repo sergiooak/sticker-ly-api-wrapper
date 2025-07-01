@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'stickers-recommended'
+    event.context.routePath = '/stickers/recommended'
     try {
       const response: StickerRecommendResponse = await useFetchApi(`sticker/recommend`)
       const data = response.result.stickers.map(useMapSticker)

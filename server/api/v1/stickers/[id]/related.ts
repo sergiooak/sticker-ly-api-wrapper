@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'stickers-related'
+    event.context.routePath = '/stickers/[id]/related'
     try {
       const { id } = getRouterParams(event)
       const response: StickerRelatedResponse = await useFetchApi(`sticker/related?sid=${id}`)

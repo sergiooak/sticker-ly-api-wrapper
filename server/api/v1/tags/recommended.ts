@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'tags-recommended'
+    event.context.routePath = '/tags/recommended'
     try {
       const apiResponse = await useFetchApi<RecommendTagsResponse>('sticker/tag/recommend', { method: 'GET' })
       const tags: string[] = apiResponse.result.recommendTags || []

@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'packs-search'
+    event.context.routePath = '/packs/search'
     try {
       const query = getQuery(event)
       // Strapi-style pagination

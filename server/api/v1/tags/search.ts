@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'tags-search'
+    event.context.routePath = '/tags/search'
     try {
       const query = getQuery(event)
       const page = Number(query['pagination[page]']) || 1
