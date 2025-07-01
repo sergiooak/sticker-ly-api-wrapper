@@ -16,6 +16,7 @@
     "url": "https://github.com/sergiooak/sticker-ly-api-wrapper/issues"
   },
   "homepage": "https://sticker-ly-api-wrapper.com",
+  "engines": { "node": "22" },
   "keywords": [
     "nuxt",
     "documentation",
