@@ -55,9 +55,6 @@ export default defineNuxtConfig({
   hooks: {
     close: () => {
       console.log('Closing Nuxt...')
-      // @see https://github.com/nuxt/cli/issues/169#issuecomment-1729300497
-      // Workaround for https://github.com/nuxt/cli/issues/169
-      process.exit(0)
     }
   },
 
