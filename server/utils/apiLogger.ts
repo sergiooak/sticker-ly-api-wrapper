@@ -64,7 +64,7 @@ export class ApiLogger {
         INSERT INTO api_logs (
           method, route_id, route_path, full_url, requester_ip,
           user_agent, referer, status_code, response_time_ms,
-          request_size_bytes, response_size_bytes, error_message
+          error_message
         ) VALUES (
           ${logData.method},
           ${logData.route_id},
@@ -75,8 +75,6 @@ export class ApiLogger {
           ${logData.referer || null},
           ${logData.status_code},
           ${logData.response_time_ms},
-          ${logData.request_size_bytes || null},
-          ${logData.response_size_bytes || null},
           ${logData.error_message || null}
         )
       `

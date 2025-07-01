@@ -320,8 +320,6 @@ export type ApiLogEntry = {
   referer?: string
   status_code: number
   response_time_ms: number
-  request_size_bytes?: number
-  response_size_bytes?: number
   error_message?: string
   created_at: string
   updated_at: string
