@@ -108,8 +108,6 @@ Why Use the Sticker.ly API Wrapper?
   #description
   Discover recommended and trending artists.
   :::
-
-::u-separator
 ::
 
 ::u-page-section
