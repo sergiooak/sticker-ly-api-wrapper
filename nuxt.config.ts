@@ -38,6 +38,17 @@ export default defineNuxtConfig({
       ],
       crawlLinks: true,
       autoSubfolderIndex: false
+    },
+    experimental: {
+      database: true
+    },
+    database: {
+      default: {
+        connector: 'postgresql',
+        options: {
+          url: process.env.DATABASE_URL
+        }
+      }
     }
   },
 
