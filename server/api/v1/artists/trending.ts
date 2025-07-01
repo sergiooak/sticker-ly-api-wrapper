@@ -8,10 +8,10 @@ export default defineCachedEventHandler(
       const artists = (response?.result?.recommendUsers || [])
         .map((item: RecommendUser) => useMapArtist(item.user))
 
-      return useFormatter(true, 'Trending artists fetched successfully', artists)
+      return useFormatter(event, 200, 'Trending artists fetched successfully', artists)
     } catch (error) {
       console.error('Error fetching recommended artists:', error)
-      return useFormatter(false, 'Failed to fetch recommended artists', null, error)
+      return useFormatter(event, 500, 'Failed to fetch recommended artists', null, error)
     }
   },
   {

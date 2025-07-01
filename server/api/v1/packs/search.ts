@@ -72,10 +72,15 @@ export default defineCachedEventHandler(
         }
       }
 
-      return useFormatter(true, `Found ${stickers.length} stickers for "${keyword}"`, stickers, { meta })
+      return useFormatter(event, 200, `Found ${stickers.length} stickers for "${keyword}"`, stickers, meta)
     } catch (error) {
       console.error('Error searching stickers:', error)
-      return useFormatter(false, 'Failed to search stickers', null, error)
+      // @ts-expect-error - TypeScript doesn't know about the error structure
+      const { statusCode = 500, statusMessage = 'Internal Server Error' } = (error as unknown) || {}
+      return useFormatter(event, statusCode, statusMessage, [], {
+        message: (error as Error).message || 'An unexpected error occurred',
+        stack: (error as Error).stack || 'No stack trace available'
+      })
     }
   },
   {

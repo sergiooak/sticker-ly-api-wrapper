@@ -6,7 +6,7 @@ export default defineCachedEventHandler(
       const packId = event.context.params?.id
 
       if (!packId) {
-        return useFormatter(false, 'Pack ID is required', null)
+        return useFormatter(event, 400, 'Pack ID is required', null)
       }
 
       const response: StickerPackResponse = await useFetchApi(
@@ -24,10 +24,15 @@ export default defineCachedEventHandler(
       }
 
       const message = `Successfully retrieved sticker pack: ${pack.name}`
-      return useFormatter(true, message, data)
+      return useFormatter(event, 200, message, data)
     } catch (error) {
       console.error('Error fetching sticker pack:', error)
-      return useFormatter(false, 'Failed to fetch sticker pack', null, error)
+      // @ts-expect-error - TypeScript doesn't know about the error structure
+      const { statusCode = 500, statusMessage = 'Internal Server Error' } = (error as unknown) || {}
+      return useFormatter(event, statusCode, statusMessage, [], {
+        message: (error as Error).message || 'An unexpected error occurred',
+        stack: (error as Error).stack || 'No stack trace available'
+      })
     }
   },
   {

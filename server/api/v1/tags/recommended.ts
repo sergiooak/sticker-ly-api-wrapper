@@ -5,10 +5,15 @@ export default defineCachedEventHandler(
     try {
       const apiResponse = await useFetchApi<RecommendTagsResponse>('sticker/tag/recommend', { method: 'GET' })
       const tags: string[] = apiResponse.result.recommendTags || []
-      return useFormatter(true, 'Recommended tags fetched successfully', tags)
+      return useFormatter(event, 200, 'Recommended tags fetched successfully', tags)
     } catch (error) {
       console.error('Error fetching recommended tags:', error)
-      return useFormatter(false, 'Failed to fetch recommended tags', [], error)
+      // @ts-expect-error - TypeScript doesn't know about the error structure
+      const { statusCode = 500, statusMessage = 'Internal Server Error' } = (error as unknown) || {}
+      return useFormatter(event, statusCode, statusMessage, [], {
+        message: (error as Error).message || 'An unexpected error occurred',
+        stack: (error as Error).stack || 'No stack trace available'
+      })
     }
   },
   {
