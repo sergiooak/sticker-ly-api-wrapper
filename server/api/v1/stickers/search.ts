@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'stickers-search'
+    event.context.routePath = '/stickers/search'
     try {
       const query = getQuery(event)
       // Strapi-style pagination
@@ -54,6 +56,13 @@ export default defineCachedEventHandler(
 
       const stickers = response.result.stickers.map(useMapSticker)
 
+      if (!stickers || stickers.length === 0) {
+        throw createError({
+          statusCode: 404,
+          statusMessage: `No stickers found for "${keyword}"`
+        })
+      }
+
       // Pagination meta
       const total = response.result.size || 0
       const pageCount = Math.ceil(total / pageSize)
@@ -70,10 +79,15 @@ export default defineCachedEventHandler(
         }
       }
 
-      return useFormatter(true, `Found ${stickers.length} stickers for "${keyword}"`, stickers, { meta })
+      return useFormatter(event, 200, `Found ${stickers.length} stickers for "${keyword}"`, stickers, meta)
     } catch (error) {
-      console.error('Error searching stickers:', error)
-      return useFormatter(false, 'Failed to search stickers', null, error)
+      console.warn('Error searching stickers:', error)
+      // @ts-expect-error - TypeScript doesn't know about the error structure
+      const { statusCode = 500, statusMessage = 'Internal Server Error' } = (error as unknown) || {}
+      return useFormatter(event, statusCode, statusMessage, [], {
+        message: (error as Error).message || 'An unexpected error occurred',
+        stack: (error as Error).stack || 'No stack trace available'
+      })
     }
   },
   {

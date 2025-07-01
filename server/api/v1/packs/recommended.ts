@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
-  async () => {
+  async (event) => {
+    event.context.routeId = 'packs-recommended'
+    event.context.routePath = '/packs/recommended'
     try {
       const apiResponse = await useFetchApi<StickerPackRecommendedResponse>('stickerPack/recommend')
 
@@ -9,10 +11,10 @@ export default defineCachedEventHandler(
       const result = { packs, premium }
       const infoMessage = `Found ${packs.length} recommended packs and ${premium.length} premium packs`
 
-      return useFormatter(true, infoMessage, result)
+      return useFormatter(event, 200, infoMessage, result)
     } catch (error) {
       console.error('Error fetching recommended sticker packs:', error)
-      return useFormatter(false, 'Failed to fetch recommended sticker packs', null, error)
+      return useFormatter(event, 500, 'Failed to fetch recommended sticker packs', null, error)
     }
   },
   {

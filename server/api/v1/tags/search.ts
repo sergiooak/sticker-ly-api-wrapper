@@ -1,5 +1,7 @@
 export default defineCachedEventHandler(
   async (event) => {
+    event.context.routeId = 'tags-search'
+    event.context.routePath = '/tags/search'
     try {
       const query = getQuery(event)
       const page = Number(query['pagination[page]']) || 1
@@ -50,10 +52,15 @@ export default defineCachedEventHandler(
         }
       }
 
-      return useFormatter(true, `Found ${tags.length} tags for "${keyword}"`, tags, { meta })
+      return useFormatter(event, 200, `Found ${tags.length} tags for "${keyword}"`, tags, meta)
     } catch (error) {
       console.error('Error searching sticker tags:', error)
-      return useFormatter(false, 'Failed to search sticker tags', null, error)
+      // @ts-expect-error - TypeScript doesn't know about the error structure
+      const { statusCode = 500, statusMessage = 'Internal Server Error' } = (error as unknown) || {}
+      return useFormatter(event, statusCode, statusMessage, [], {
+        message: (error as Error).message || 'An unexpected error occurred',
+        stack: (error as Error).stack || 'No stack trace available'
+      })
     }
   },
   {

@@ -303,3 +303,27 @@ export type HomeTabPacksResponse = {
     stickerPacks: StickerPackDetailed[]
   }
 }
+
+// ==========================
+// API Logging Types
+// ==========================
+
+/** API request log entry for database storage */
+export type ApiLogEntry = {
+  id: string
+  method: string
+  route_id: string
+  route_path: string
+  full_url: string
+  requester_ip: string
+  user_agent?: string
+  referer?: string
+  status_code: number
+  response_time_ms: number
+  error_message?: string
+  created_at: string
+  updated_at: string
+}
+
+/** API log creation payload (without auto-generated fields) */
+export type ApiLogCreate = Omit<ApiLogEntry, 'id' | 'created_at' | 'updated_at'>
