@@ -29,8 +29,6 @@ export class ApiLogger {
         "referer" TEXT,
         "status_code" INTEGER NOT NULL,
         "response_time_ms" INTEGER NOT NULL,
-        "request_size_bytes" INTEGER,
-        "response_size_bytes" INTEGER,
         "error_message" TEXT,
         "created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         "updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
