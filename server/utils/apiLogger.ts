@@ -18,6 +18,9 @@ export class ApiLogger {
    */
   async initializeTable(): Promise<void> {
     await this.db.sql`
+      CREATE EXTENSION IF NOT EXISTS pgcrypto;
+    `
+    await this.db.sql`
       CREATE TABLE IF NOT EXISTS api_logs (
         "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         "method" VARCHAR(10) NOT NULL,
