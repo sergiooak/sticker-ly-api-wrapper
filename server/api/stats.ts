@@ -8,14 +8,17 @@ export default defineEventHandler(async (event) => {
     const query = getQuery(event)
     const timeframe = query['timeframe']
 
-    const db = useDatabase()
-    const globalLogger = globalThis as {
-      __apiLogger?: Awaited<ReturnType<typeof createApiLogger>>
-    }
-    let apiLogger = globalLogger.__apiLogger
-    if (!apiLogger) {
-      apiLogger = await createApiLogger(db)
-      globalLogger.__apiLogger = apiLogger
+    let apiLogger: Awaited<ReturnType<typeof createApiLogger>> | null = null
+    if (process.env.DATABASE_URL) {
+      const db = useDatabase()
+      const globalLogger = globalThis as {
+        __apiLogger?: Awaited<ReturnType<typeof createApiLogger>>
+      }
+      apiLogger = globalLogger.__apiLogger || null
+      if (!apiLogger) {
+        apiLogger = await createApiLogger(db)
+        globalLogger.__apiLogger = apiLogger
+      }
     }
 
     let cutoffISO: string | undefined
@@ -51,16 +54,30 @@ export default defineEventHandler(async (event) => {
       console.log(`[ApiLogger] No valid timeframe provided, querying all time`)
     }
 
-    const stats = await apiLogger.getApiStats(cutoffISO)
+    const baseStats = apiLogger
+      ? await apiLogger.getApiStats(cutoffISO)
+      : {
+          total_requests: 0,
+          unique_ips: 0,
+          avg_response_time: 0,
+          error_rate: 0,
+          top_endpoints: [] as Array<{ route_id: string, count: number }>
+        }
 
     const meta = { timeframe }
 
-    return useFormatter(event, 200, 'Fetched stats', stats, meta)
+    return useFormatter(event, 200, 'Fetched stats', baseStats, meta)
   } catch (error) {
     console.error('Error fetching API stats:', error)
-    return useFormatter(event, 500, 'Failed to fetch stats', null, {
-      message: (error as Error).message || 'An unexpected error occurred',
-      stack: (error as Error).stack || 'No stack trace available'
+    const fallback = {
+      total_requests: 0,
+      unique_ips: 0,
+      avg_response_time: 0,
+      error_rate: 0,
+      top_endpoints: [] as Array<{ route_id: string, count: number }>
+    }
+    return useFormatter(event, 200, 'Fetched stats (fallback)', fallback, {
+      timeframe: getQuery(event)['timeframe']
     })
   }
 })
