@@ -137,6 +137,8 @@ export class ApiLogger {
       const now = new Date()
       let cutoffTime: Date
 
+      console.log(`[ApiLogger] Calculating stats for timeframe: ${timeframe}`)
+
       switch (timeframe) {
         case '1h':
           cutoffTime = new Date(now.getTime() - 60 * 60 * 1000)
@@ -155,49 +157,59 @@ export class ApiLogger {
       }
 
       const cutoffISO = cutoffTime.toISOString()
+      console.log(`[ApiLogger] Using cutoff ISO timestamp: ${cutoffISO}`)
 
       // Get basic stats
-      const statsResult = await this.db.sql`
-        SELECT
-          COUNT(*) as total_requests,
-          COUNT(DISTINCT requester_ip) as unique_ips,
-          COALESCE(AVG(response_time_ms), 0) as avg_response_time,
-          COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)), 0) as error_rate
-        FROM api_logs
-        WHERE created_at >= ${cutoffISO}
-      ` as Array<{
-        total_requests: number
-        unique_ips: number
-        avg_response_time: number
-        error_rate: number
-      }>
+      console.log('[\n\nApiLogger] Querying basic stats...')
+      const statsQuery = await this.db.sql`
+      SELECT
+        COUNT(*) as total_requests,
+        COUNT(DISTINCT requester_ip) as unique_ips,
+        COALESCE(AVG(response_time_ms), 0) as avg_response_time,
+        COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)), 0) as error_rate
+      FROM api_logs
+      WHERE created_at >= ${cutoffISO}
+      `
 
-      const stats = Array.isArray(statsResult) && statsResult.length > 0
-        ? statsResult[0]
-        : {
-            total_requests: 0,
-            unique_ips: 0,
-            avg_response_time: 0,
-            error_rate: 0
-          }
+      const statsResult = statsQuery.rows
+      const stats = (statsResult && statsResult[0]) ?? {
+        total_requests: 0,
+        unique_ips: 0,
+        avg_response_time: 0,
+        error_rate: 0
+      }
+
+      console.log('[ApiLogger] Stats result:', stats)
 
       // Get top endpoints
-      const topEndpointsResult = await this.db.sql`
-        SELECT route_id, COUNT(*) as count
-        FROM api_logs
-        WHERE created_at >= ${cutoffISO}
-        GROUP BY route_id
-        ORDER BY count DESC
-        LIMIT 10
-      ` as Array<{ route_id: string, count: number }>
+      console.log('\n\n[ApiLogger] Querying top endpoints...')
+      const topEndpointsQuery = await this.db.sql`
+      SELECT route_id, COUNT(*) as count
+      FROM api_logs
+      WHERE created_at >= ${cutoffISO}
+      GROUP BY route_id
+      ORDER BY count DESC
+      LIMIT 10
+      `
 
-      return {
-        total_requests: Number(stats?.total_requests) || 0,
-        unique_ips: Number(stats?.unique_ips) || 0,
-        avg_response_time: Math.round(Number(stats?.avg_response_time) || 0),
-        error_rate: Math.round((Number(stats?.error_rate) || 0) * 100) / 100,
-        top_endpoints: Array.isArray(topEndpointsResult) ? topEndpointsResult : []
+      const topEndpointsResult = topEndpointsQuery.rows
+      const topEndpoints = (topEndpointsResult && topEndpointsResult.length > 0) ? topEndpointsResult : []
+
+      console.log('[ApiLogger] Top endpoints result:', topEndpointsResult)
+
+      const result = {
+        total_requests: Number(stats.total_requests) || 0,
+        unique_ips: Number(stats.unique_ips) || 0,
+        avg_response_time: Number(stats.avg_response_time) || 0,
+        error_rate: Number(stats.error_rate) || 0,
+        top_endpoints: topEndpoints.map(endpoint => ({
+          route_id: String(endpoint.route_id),
+          count: parseInt(endpoint.count as string, 10)
+        }))
       }
+
+      console.log('[ApiLogger] Final API stats result:', result)
+      return result
     } catch (error) {
       console.error('Error getting API stats:', error)
       // Return default stats on error
