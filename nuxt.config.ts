@@ -57,9 +57,9 @@ export default defineNuxtConfig({
       console.log('Closing Nuxt...')
 
       setTimeout(() => {
-        console.log('Nuxt closed successfully.')
+        console.log('Forcing exit after 1 second...')
         process.exit(0)
-      }, 1000 * 60) // Wait for 1 minute before exiting
+      }, 1000)
     }
   },
 
