@@ -12,9 +12,17 @@ interface ApiStats {
 const stats = ref<ApiStats | null>(null)
 
 async function fetchStats() {
-  const { data } = await useFetch('/api/stats', { query: { timeframe: '1d' } })
-  if (data.value && data.value.status === 'success') {
-    stats.value = data.value.data
+  try {
+    const { data } = await useFetch('/api/stats', { query: { timeframe: '1d' } })
+    if (data.value && data.value.status === 'success') {
+      stats.value = data.value.data
+    } else {
+      console.error('Failed to fetch stats: Invalid response format or status.')
+      stats.value = null
+    }
+  } catch (error) {
+    console.error('Failed to fetch stats:', error)
+    stats.value = null
   }
 }
 
