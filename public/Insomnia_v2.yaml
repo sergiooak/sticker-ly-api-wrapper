@@ -1,0 +1,1048 @@
+type: collection.insomnia.rest/5.0
+name: Sticker.ly - Reverse Engerring
+meta:
+  id: wrk_12fe29ec64a347ecb7d2e78341f0e651
+  created: 1751469626844
+  modified: 1751469626844
+  description: ""
+collection:
+  - name: Direct Routes
+    meta:
+      id: fld_04293d22b07949d5a1eae5aaa944ed2a
+      created: 1750784214395
+      modified: 1750784214395
+      sortKey: -1750784214395
+      description: ""
+    children:
+      - name: Stickers
+        meta:
+          id: fld_6a0f3b4b31f74dc4909a366b6c4b2080
+          created: 1750640993349
+          modified: 1750784239298
+          sortKey: -1750784221979
+          description: ""
+        children:
+          - url: http://api.sticker.ly/v4/sticker/recommend
+            name: Recommend
+            meta:
+              id: req_8543d82927104bebb9137c9f46b3f3d5
+              created: 1717013077830
+              modified: 1750641206103
+              isPrivate: false
+              description: ""
+              sortKey: -1750640996391
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/sticker/searchV2
+            name: Search
+            meta:
+              id: req_9ee2be27625544cabec65d3cf8067412
+              created: 1717013135723
+              modified: 1750805438414
+              isPrivate: false
+              description: ""
+              sortKey: -1750640996491
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "keyword": "hollywood | undead | hollywoodundead | country:AR",
+                  "size": 10,
+                  "cursor": 1,
+                  "limit": 99
+                }
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_766d6fbf1eb048a6b55e64454afb5c74
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/sticker/related
+            name: Related
+            meta:
+              id: req_68f2daeb3f01412bba4e013dc7493c05
+              created: 1750641378399
+              modified: 1750641425122
+              isPrivate: false
+              description: ""
+              sortKey: -1734983028791.5
+            method: GET
+            parameters:
+              - name: sid
+                value: 6825ea9c45b6ee449cc2ecf4
+                disabled: false
+                id: pair_2c2e215ab3914db38548db7a86b9166a
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Packs
+        meta:
+          id: fld_af61a0ffb176491a8837768741dad594
+          created: 1750641061766
+          modified: 1750784242416
+          sortKey: -1750784221929
+          description: ""
+        children:
+          - url: http://api.sticker.ly/v4/stickerPack/B4T9L7
+            name: Pack by ID
+            meta:
+              id: req_55e4cf75aafc4cf486c18dc304517212
+              created: 1717012781394
+              modified: 1750790374613
+              isPrivate: false
+              description: ""
+              sortKey: -1750641078601
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/stickerPack/searchV2
+            name: Search
+            meta:
+              id: req_258e793dba2543229443cd9072128543
+              created: 1717013663746
+              modified: 1750805445783
+              isPrivate: false
+              description: ""
+              sortKey: -1750641078701
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                 "keyword": "picapaumaluco",
+                  "size": 10,
+                  "cursor": 1,
+                  "limit": 5
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/stickerPack/recommend
+            name: Recommend
+            meta:
+              id: req_32078b821b294e3c8ddebc937a41dccc
+              created: 1717091989265
+              modified: 1750642193357
+              isPrivate: false
+              description: ""
+              sortKey: -1750641078401
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/stickerPack/B4T9L7/recommendedCategories
+            name: Related by ID
+            meta:
+              id: req_b48bcc2422ed4a599266dd49103efab8
+              created: 1750642067927
+              modified: 1750642170573
+              isPrivate: false
+              description: ""
+              sortKey: -1750641078501
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Home Tab
+        meta:
+          id: fld_8691bea0b55744ba8c1d38f528cf514f
+          created: 1750692893620
+          modified: 1750784233106
+          sortKey: -1750784221679
+          description: ""
+        children:
+          - url: http://api.sticker.ly/v4/hometab/overview
+            name: Overview
+            meta:
+              id: req_35e00c02ec9943ed963495107f8b91c6
+              created: 1750692918604
+              modified: 1750692945481
+              isPrivate: false
+              description: ""
+              sortKey: -1750692922545
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/hometab/590/packs
+            name: Packs by Tab ID
+            meta:
+              id: req_5805cc29ed3144d6aa7d2ab13a09801f
+              created: 1750693174573
+              modified: 1750809110201
+              isPrivate: false
+              description: ""
+              sortKey: -1750667000623
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/hometab/611/stickers
+            name: Stickers by Tab ID
+            meta:
+              id: req_eb071e399a494e218691f5d42b9280ea
+              created: 1750693407350
+              modified: 1750693461394
+              isPrivate: false
+              description: ""
+              sortKey: -1750654039662
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Misc
+        meta:
+          id: fld_724a377d57484c97865128346d13daa7
+          created: 1750693480234
+          modified: 1750784237496
+          sortKey: -1750784221879
+          description: ""
+        children:
+          - url: http://api.sticker.ly/v4/trending/search
+            name: Trending
+            meta:
+              id: req_aad01dab49774b74be728dc07021d1db
+              created: 1717013999570
+              modified: 1750694358442
+              isPrivate: false
+              description: ""
+              sortKey: -1750693926829
+            method: POST
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/artist/recommend
+            name: Recommend Artists
+            meta:
+              id: req_88ea095a012743daa1b3bb707b0a50f5
+              created: 1750694259300
+              modified: 1750694368035
+              isPrivate: false
+              description: ""
+              sortKey: -1750693424687
+            method: POST
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Tags
+        meta:
+          id: fld_760090f66efe4a5eaeab7cf06ccf224d
+          created: 1750694343312
+          modified: 1750784235314
+          sortKey: -1750784221779
+          description: ""
+        children:
+          - url: http://api.sticker.ly/v4/stickerTag/search
+            name: Tag - Search
+            meta:
+              id: req_0b915a5d413945779e9dd52c6fddf488
+              created: 1717012820117
+              modified: 1750805508085
+              isPrivate: false
+              description: ""
+              sortKey: -1750694378813
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                 "keyword": "picapau",
+                  "size": 10,
+                  "cursor": 1,
+                  "limit": 99
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: http://api.sticker.ly/v4/sticker/tag/recommend
+            name: Tag Recommend
+            meta:
+              id: req_ffe779ff7ef1410e8eb9e7dca8b8cb7e
+              created: 1717013233493
+              modified: 1750694381842
+              isPrivate: false
+              description: ""
+              sortKey: -1750694378713
+            method: GET
+            headers:
+              - name: User-Agent
+                value: androidapp.stickerly/2.16.0 (G011A; U; Android 22; pt-BR; br;)
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+    scripts:
+      afterResponse: ""
+      preRequest: ""
+  - name: API Wrapper
+    meta:
+      id: fld_1e95e4184fe44538a75dd0a2e38a9349
+      created: 1750785170587
+      modified: 1750785170587
+      sortKey: -1750785170588
+      description: ""
+    children:
+      - name: Stickers
+        meta:
+          id: fld_d1743457402c4f43be49c72cf11ff088
+          created: 1750785194488
+          modified: 1750809855833
+          sortKey: -1750809853155
+          description: ""
+        children:
+          - url: "{{ _.baseUrl }}/v1/stickers/search"
+            name: Search
+            meta:
+              id: req_06d731bf045c48768643472629e15fdd
+              created: 1750785208813
+              modified: 1751469825548
+              isPrivate: false
+              description: ""
+              sortKey: -1750785208813
+            method: GET
+            parameters:
+              - name: keyword
+                value: memes
+                disabled: false
+                id: pair_56bd2d8d6a7e43c392103a5a31a6d496
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseUrl }}/v1/stickers/recommended"
+            name: Recommended
+            meta:
+              id: req_2abd63e282924592b42aa2448602d7ae
+              created: 1750785406370
+              modified: 1751469842609
+              isPrivate: false
+              description: ""
+              sortKey: -1750739793813
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_588644867588434abd6cbac7222b1a1e
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseUrl }}/v1/stickers/684f2cc66789292eda9bd3e3/related"
+            name: Relateds by ID
+            meta:
+              id: req_54e268a2aca44a87835de135c8123193
+              created: 1750785449325
+              modified: 1751469852126
+              isPrivate: false
+              description: ""
+              sortKey: -1750762501313
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_588644867588434abd6cbac7222b1a1e
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Packs
+        meta:
+          id: fld_a67373b32cb44325b71bf296e4d77797
+          created: 1750785523211
+          modified: 1750809857497
+          sortKey: -1750809853105
+          description: ""
+        children:
+          - url: "{{ _.baseUrl }}/v1/packs/recommended"
+            name: Recommended
+            meta:
+              id: req_daf59450391b496c81955a91504ece41
+              created: 1750785538057
+              modified: 1751469871371
+              isPrivate: false
+              description: ""
+              sortKey: -1750785542632
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_12695fa8227d49fe908e48d81f62a309
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseUrl }}/v1/packs/B4T9L7"
+            name: Pack by ID
+            meta:
+              id: req_197a0e2388284df4a2453d1275fa88e1
+              created: 1750785981029
+              modified: 1751469859349
+              isPrivate: false
+              description: ""
+              sortKey: -1750785542732
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_200aa5db0a8b4480ba8795f33b6ef5db
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseUrl }}/v1/packs/B4T9L7/related"
+            name: Relateds by ID
+            meta:
+              id: req_34c4eabd759c42e7996ba96a9fb3b1d3
+              created: 1750791543307
+              modified: 1751469864491
+              isPrivate: false
+              description: ""
+              sortKey: -1750785542682
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_200aa5db0a8b4480ba8795f33b6ef5db
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Tags
+        meta:
+          id: fld_0c9cd2c2f8e4486a914d76332dbcaa2d
+          created: 1750804687164
+          modified: 1750809859908
+          sortKey: -1750809853080
+          description: ""
+        children:
+          - url: "{{ _.baseUrl }}/v1/tags/trending"
+            name: Trending
+            meta:
+              id: req_324d4ae18a0d40febff202acd8b335f3
+              created: 1750804748053
+              modified: 1751469882431
+              isPrivate: false
+              description: ""
+              sortKey: -1750804749622
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_12695fa8227d49fe908e48d81f62a309
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseUrl }}/v1/tags/recommended"
+            name: Recommended
+            meta:
+              id: req_3e8d3179ab9c41bc92e24655cf3bfb27
+              created: 1750805193173
+              modified: 1751469889284
+              isPrivate: false
+              description: ""
+              sortKey: -1750795146177
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_12695fa8227d49fe908e48d81f62a309
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseUrl }}/v1/tags/search"
+            name: Search
+            meta:
+              id: req_05561ba3d6c344f58cb91d6d02d3ebb2
+              created: 1750805756443
+              modified: 1751469878840
+              isPrivate: false
+              description: ""
+              sortKey: -1750804749722
+            method: GET
+            parameters:
+              - name: keyword
+                value: picapau
+                disabled: false
+                id: pair_12695fa8227d49fe908e48d81f62a309
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Artists
+        meta:
+          id: fld_83ceb445905341c89d78ef8f73813a7a
+          created: 1750806755696
+          modified: 1750809861651
+          sortKey: -1750809853067.5
+          description: ""
+        children:
+          - url: "{{ _.baseUrl }}/v1/artists/trending"
+            name: Trending
+            meta:
+              id: req_b01d8b5cfd454b3fa9c4cfc9291e9617
+              created: 1750806800943
+              modified: 1751469905204
+              isPrivate: false
+              description: ""
+              sortKey: -1750806803388
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_12695fa8227d49fe908e48d81f62a309
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.baseUrl }}/v1/artists/recommended"
+            name: Recommended
+            meta:
+              id: req_4bf024527c9a42b086d6c87715a738a5
+              created: 1750808949499
+              modified: 1751469916142
+              isPrivate: false
+              description: ""
+              sortKey: -1750805776555
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_12695fa8227d49fe908e48d81f62a309
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+      - name: Home Tabs
+        meta:
+          id: fld_20994db1fc2b4e399169429d6821ed27
+          created: 1750809853055
+          modified: 1750809853055
+          sortKey: -1750809853055
+          description: ""
+        children:
+          - url: "{{ _.baseUrl }}/v1/home-tabs"
+            name: Read All
+            meta:
+              id: req_0dec3ba42f1e42518c5e2942323bead7
+              created: 1750809895681
+              modified: 1751469937992
+              isPrivate: false
+              description: ""
+              sortKey: -1750809899290
+            method: GET
+            parameters:
+              - name: ""
+                value: ""
+                disabled: false
+                id: pair_12695fa8227d49fe908e48d81f62a309
+            headers:
+              - name: User-Agent
+                value: insomnia/11.2.0
+            scripts:
+              preRequest: ""
+              afterResponse: ""
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        scripts:
+          afterResponse: ""
+          preRequest: ""
+    scripts:
+      afterResponse: ""
+      preRequest: ""
+  - name: Monitoring
+    meta:
+      id: fld_99f88944c52f4c0692102f2e39f8b960
+      created: 1751030400000
+      modified: 1751469697752
+      sortKey: -1750784692491.5
+      description: API request logging and monitoring endpoints
+    children:
+      - url: "{{ _.baseUrl }}/logs"
+        name: Get API Logs
+        meta:
+          id: req_f77cbbaf5caa4cc289891fea5566bf36
+          created: 1751030400001
+          modified: 1751030400001
+          isPrivate: false
+          description: Retrieve paginated API request logs with optional filtering
+          sortKey: -1751030400001
+        method: GET
+        parameters:
+          - name: limit
+            value: "50"
+            disabled: false
+            id: pair_logs_limit
+          - name: timeframe
+            value: 24h
+            disabled: false
+            id: pair_logs_timeframe
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/logs/stats"
+        name: Get API Statistics
+        meta:
+          id: req_28c46fb936c641dea812f9dba928b7af
+          created: 1751030400002
+          modified: 1751030400002
+          isPrivate: false
+          description: Retrieve API usage statistics for monitoring
+          sortKey: -1751030400002
+        method: GET
+        parameters:
+          - name: timeframe
+            value: 24h
+            disabled: false
+            id: pair_stats_timeframe
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/logs"
+        name: Get Error Logs Only
+        meta:
+          id: req_b1a0d3a246ce4b609e4c045d937c5ffe
+          created: 1751030400003
+          modified: 1751030400003
+          isPrivate: false
+          description: Retrieve only error logs (4xx and 5xx status codes)
+          sortKey: -1751030400003
+        method: GET
+        parameters:
+          - name: limit
+            value: "25"
+            disabled: false
+            id: pair_error_logs_limit
+          - name: status_code
+            value: "500"
+            disabled: false
+            id: pair_error_logs_status
+          - name: timeframe
+            value: 24h
+            disabled: false
+            id: pair_error_logs_timeframe
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.baseUrl }}/logs"
+        name: Get Slow Requests
+        meta:
+          id: req_e7c52681e08945e18349deeb99fba070
+          created: 1751030400004
+          modified: 1751030400004
+          isPrivate: false
+          description: Monitor slow API requests (over 1000ms response time)
+          sortKey: -1751030400004
+        method: GET
+        parameters:
+          - name: limit
+            value: "30"
+            disabled: false
+            id: pair_slow_logs_limit
+          - name: since
+            value: 2025-07-01T00:00:00Z
+            disabled: false
+            id: pair_slow_logs_since
+          - name: timeframe
+            value: 1h
+            disabled: false
+            id: pair_slow_logs_timeframe
+        headers:
+          - name: User-Agent
+            value: insomnia/11.2.0
+        scripts:
+          preRequest: ""
+          afterResponse: ""
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+    scripts:
+      afterResponse: ""
+      preRequest: ""
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_f741c05562a64574819aa05aea78379d
+    created: 1717010457398
+    modified: 1717010457398
+environments:
+  name: Base Environment
+  meta:
+    id: env_2c51380d24fe4192836b87fa28f01934
+    created: 1717010457397
+    modified: 1751469725602
+    isPrivate: false
+  data:
+    baseUrl: http://localhost:3000/api
+  subEnvironments:
+    - name: Production
+      meta:
+        id: env_cfb26ed0c5254879be363a75240f1e1c
+        created: 1750815386316
+        modified: 1751469733375
+        isPrivate: true
+        sortKey: 1750815386316
+      data:
+        baseUrl: https://sticker-ly-api.sergiooak.com.br/api
+    - name: Development
+      meta:
+        id: env_75a2e9727e02406aa58621e71f821781
+        created: 1751469738000
+        modified: 1751469782013
+        isPrivate: true
+        sortKey: 1751469738000
+      data:
+        baseUrl: http://localhost:3000/api
