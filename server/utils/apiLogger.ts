@@ -125,7 +125,7 @@ export class ApiLogger {
   /**
    * Get API statistics
    */
-  async getApiStats(timeframe: '1h' | '24h' | '7d' | '30d' = '24h'): Promise<{
+  async getApiStats(timeframe?: '1h' | '24h' | '7d' | '30d'): Promise<{
     total_requests: number
     unique_ips: number
     avg_response_time: number
@@ -134,42 +134,56 @@ export class ApiLogger {
   }> {
     try {
       // Create a cutoff timestamp for the timeframe
-      const now = new Date()
-      let cutoffTime: Date
-
-      console.log(`[ApiLogger] Calculating stats for timeframe: ${timeframe}`)
-
-      switch (timeframe) {
-        case '1h':
-          cutoffTime = new Date(now.getTime() - 60 * 60 * 1000)
-          break
-        case '24h':
-          cutoffTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
-          break
-        case '7d':
-          cutoffTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-          break
-        case '30d':
-          cutoffTime = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
-          break
-        default:
-          cutoffTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+      let cutoffISO: string | null = null
+      if (timeframe) {
+        const now = new Date()
+        let cutoffTime: Date
+        console.log(`[ApiLogger] Calculating stats for timeframe: ${timeframe}`)
+        switch (timeframe) {
+          case '1h':
+            cutoffTime = new Date(now.getTime() - 60 * 60 * 1000)
+            break
+          case '24h':
+            cutoffTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+            break
+          case '7d':
+            cutoffTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+            break
+          case '30d':
+            cutoffTime = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+            break
+          default:
+            cutoffTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
+        }
+        cutoffISO = cutoffTime.toISOString()
+        console.log(`[ApiLogger] Using cutoff ISO timestamp: ${cutoffISO}`)
+      } else {
+        console.log(`[ApiLogger] No timeframe provided, querying all time`)
       }
-
-      const cutoffISO = cutoffTime.toISOString()
-      console.log(`[ApiLogger] Using cutoff ISO timestamp: ${cutoffISO}`)
 
       // Get basic stats
       console.log('[\n\nApiLogger] Querying basic stats...')
-      const statsQuery = await this.db.sql`
-      SELECT
-        COUNT(*) as total_requests,
-        COUNT(DISTINCT requester_ip) as unique_ips,
-        COALESCE(AVG(response_time_ms), 0) as avg_response_time,
-        COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)), 0) as error_rate
-      FROM api_logs
-      WHERE created_at >= ${cutoffISO}
-      `
+      let statsQuery
+      if (cutoffISO) {
+        statsQuery = await this.db.sql`
+          SELECT
+            COUNT(*) as total_requests,
+            COUNT(DISTINCT requester_ip) as unique_ips,
+            COALESCE(AVG(response_time_ms), 0) as avg_response_time,
+            COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)), 0) as error_rate
+          FROM api_logs
+          WHERE created_at >= ${cutoffISO}
+        `
+      } else {
+        statsQuery = await this.db.sql`
+          SELECT
+            COUNT(*) as total_requests,
+            COUNT(DISTINCT requester_ip) as unique_ips,
+            COALESCE(AVG(response_time_ms), 0) as avg_response_time,
+            COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)), 0) as error_rate
+          FROM api_logs
+        `
+      }
 
       const statsResult = statsQuery.rows
       const stats = (statsResult && statsResult[0]) ?? {
@@ -183,14 +197,25 @@ export class ApiLogger {
 
       // Get top endpoints
       console.log('\n\n[ApiLogger] Querying top endpoints...')
-      const topEndpointsQuery = await this.db.sql`
-      SELECT route_id, COUNT(*) as count
-      FROM api_logs
-      WHERE created_at >= ${cutoffISO}
-      GROUP BY route_id
-      ORDER BY count DESC
-      LIMIT 10
-      `
+      let topEndpointsQuery
+      if (cutoffISO) {
+        topEndpointsQuery = await this.db.sql`
+          SELECT route_id, COUNT(*) as count
+          FROM api_logs
+          WHERE created_at >= ${cutoffISO}
+          GROUP BY route_id
+          ORDER BY count DESC
+          LIMIT 10
+        `
+      } else {
+        topEndpointsQuery = await this.db.sql`
+          SELECT route_id, COUNT(*) as count
+          FROM api_logs
+          GROUP BY route_id
+          ORDER BY count DESC
+          LIMIT 10
+        `
+      }
 
       const topEndpointsResult = topEndpointsQuery.rows
       const topEndpoints = (topEndpointsResult && topEndpointsResult.length > 0) ? topEndpointsResult : []
