@@ -125,7 +125,10 @@ export class ApiLogger {
   /**
    * Get API statistics
    */
-  async getApiStats(timeframe?: '1h' | '24h' | '7d' | '30d'): Promise<{
+  /**
+   * Get API statistics (total requests, unique IPs, avg response time, error rate, top endpoints)
+   */
+  async getApiStats(cutoffISO?: string): Promise<{
     total_requests: number
     unique_ips: number
     avg_response_time: number
@@ -134,35 +137,13 @@ export class ApiLogger {
   }> {
     try {
       // Create a cutoff timestamp for the timeframe
-      let cutoffISO: string | null = null
-      if (timeframe) {
-        const now = new Date()
-        let cutoffTime: Date
-        console.log(`[ApiLogger] Calculating stats for timeframe: ${timeframe}`)
-        switch (timeframe) {
-          case '1h':
-            cutoffTime = new Date(now.getTime() - 60 * 60 * 1000)
-            break
-          case '24h':
-            cutoffTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
-            break
-          case '7d':
-            cutoffTime = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
-            break
-          case '30d':
-            cutoffTime = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
-            break
-          default:
-            cutoffTime = new Date(now.getTime() - 24 * 60 * 60 * 1000)
-        }
-        cutoffISO = cutoffTime.toISOString()
+      if (cutoffISO) {
         console.log(`[ApiLogger] Using cutoff ISO timestamp: ${cutoffISO}`)
       } else {
         console.log(`[ApiLogger] No timeframe provided, querying all time`)
       }
 
       // Get basic stats
-      console.log('[\n\nApiLogger] Querying basic stats...')
       let statsQuery
       if (cutoffISO) {
         statsQuery = await this.db.sql`
@@ -193,10 +174,7 @@ export class ApiLogger {
         error_rate: 0
       }
 
-      console.log('[ApiLogger] Stats result:', stats)
-
       // Get top endpoints
-      console.log('\n\n[ApiLogger] Querying top endpoints...')
       let topEndpointsQuery
       if (cutoffISO) {
         topEndpointsQuery = await this.db.sql`
@@ -220,20 +198,16 @@ export class ApiLogger {
       const topEndpointsResult = topEndpointsQuery.rows
       const topEndpoints = (topEndpointsResult && topEndpointsResult.length > 0) ? topEndpointsResult : []
 
-      console.log('[ApiLogger] Top endpoints result:', topEndpointsResult)
-
       const result = {
         total_requests: Number(stats.total_requests) || 0,
         unique_ips: Number(stats.unique_ips) || 0,
-        avg_response_time: Number(stats.avg_response_time) || 0,
-        error_rate: Number(stats.error_rate) || 0,
+        avg_response_time: Number(Number(stats.avg_response_time).toFixed(2)) || 0,
+        error_rate: Number(Number(stats.error_rate).toFixed(2)) || 0,
         top_endpoints: topEndpoints.map(endpoint => ({
           route_id: String(endpoint.route_id),
           count: parseInt(endpoint.count as string, 10)
         }))
       }
-
-      console.log('[ApiLogger] Final API stats result:', result)
       return result
     } catch (error) {
       console.error('Error getting API stats:', error)
