@@ -49,6 +49,13 @@ export default defineNuxtConfig({
           url: process.env.DATABASE_URL
         }
       }
+    },
+    routeRules: {
+      '/file/**': { proxy: 'https://stickerly.pstatic.net/**',
+        cache: {
+          maxAge: 60 * 60 // 1 hour
+        }
+      }
     }
   },
 
