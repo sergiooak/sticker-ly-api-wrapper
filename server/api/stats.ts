@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const query = getQuery(event)
-    const timeframe = (query['timeframe'] as '1h' | '24h' | '7d' | '30d') || '24h'
+    const timeframe = query['timeframe']
 
     const db = useDatabase()
     const globalLogger = globalThis as {
