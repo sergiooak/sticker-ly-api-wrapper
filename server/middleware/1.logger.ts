@@ -48,8 +48,10 @@ export default defineEventHandler(async (event) => {
       const isError = statusCode >= 400
       const errorMessage = isError ? `HTTP ${statusCode}` : undefined
 
+      const routesIdsToIgnore = ['stats', 'logs']
+
       // Only log to database if routeId is present (not chafed)
-      if (routeId) {
+      if (routeId && !routesIdsToIgnore.includes(routeId)) {
         const logEntry: ApiLogCreate = {
           method,
           route_id: routeId,
