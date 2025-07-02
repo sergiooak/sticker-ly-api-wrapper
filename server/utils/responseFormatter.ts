@@ -36,7 +36,7 @@ export function useFormatter<T = unknown, M = unknown, E = unknown>(
     if (typeof obj === 'string') {
       return obj.replaceAll(
         'https://stickerly.pstatic.net/',
-        `${process.env.NUXT_PUBLIC_SITE_URL || ''}file/`
+        `${process.env.NUXT_PUBLIC_SITE_URL || '/'}file/`
       ) as TValue
     } else if (Array.isArray(obj)) {
       return obj.map(replaceStickerlyUrls) as TValue
