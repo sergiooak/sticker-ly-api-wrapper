@@ -12,13 +12,13 @@ interface ApiStats {
 const stats = ref<ApiStats | null>(null)
 
 async function fetchStats() {
-  const { data } = await useFetch('/api/stats', { query: { timeframe: '1m' } })
+  const { data } = await useFetch('/api/stats', { query: { timeframe: '1d' } })
   if (data.value && data.value.status === 'success') {
     stats.value = data.value.data
   }
 }
 
-let timer: NodeJS.Timer
+let timer: ReturnType<typeof setInterval>
 
 onMounted(() => {
   fetchStats()
@@ -109,12 +109,12 @@ const features = [
     </UPageHero>
 
     <UPageSection
-      title="API Usage (last minute)"
+      title="API Usage (last 24h)"
       class="mt-8"
     >
       <template #default>
         <template v-if="stats">
-          <UPageGrid :cols="{ base: 1, sm: 2, md: 4 }">
+          <UPageGrid class="grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
             <UCard class="text-center">
               <template #header>
                 Total Requests
@@ -151,7 +151,10 @@ const features = [
         </template>
         <template v-else>
           <div class="text-center py-8">
-            <ULoadingIcon />
+            <UIcon
+              name="i-svg-spinners-180-ring-with-bg"
+              class="size-6"
+            />
           </div>
         </template>
       </template>
