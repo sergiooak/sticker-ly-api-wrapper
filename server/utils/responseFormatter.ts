@@ -31,12 +31,31 @@ export function useFormatter<T = unknown, M = unknown, E = unknown>(
     event.node.res.statusCode = statusCode
   }
 
+  // Helper to recursively replace URLs in any string property
+  function replaceStickerlyUrls<TValue>(obj: TValue): TValue {
+    if (typeof obj === 'string') {
+      return obj.replaceAll(
+        'https://stickerly.pstatic.net/',
+        `${process.env.NUXT_PUBLIC_SITE_URL || '/'}file/`
+      ) as TValue
+    } else if (Array.isArray(obj)) {
+      return obj.map(replaceStickerlyUrls) as TValue
+    } else if (obj && typeof obj === 'object') {
+      const newObj = {} as Record<string, unknown>
+      for (const key in obj) {
+        newObj[key] = replaceStickerlyUrls((obj as Record<string, unknown>)[key])
+      }
+      return newObj as TValue
+    }
+    return obj
+  }
+
   if (statusCode < 300) {
     return {
       status: 'success',
       message,
-      data,
-      meta: extra as M,
+      data: replaceStickerlyUrls(data),
+      meta: extra ? replaceStickerlyUrls(extra as M) : undefined,
       timestamp: new Date().toISOString()
     }
   } else {
@@ -44,7 +63,7 @@ export function useFormatter<T = unknown, M = unknown, E = unknown>(
       status: 'error',
       message,
       data: null,
-      errors: extra as E,
+      errors: extra ? replaceStickerlyUrls(extra as E) : undefined,
       timestamp: new Date().toISOString()
     }
   }
