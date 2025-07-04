@@ -58,7 +58,7 @@ const fifteenStickers = [...stickers]
             v-for="(sticker, i) in fifteenStickers"
             :key="i"
             :class="[
-              'overflow-hidden transition-all duration-300 md:hover:translate-x-1 hover:scale-125 origin-bottom md:origin-left rounded-md peer hover:opacity-100 group-hover:opacity-75 hover:z-10',
+              'overflow-hidden transition-all duration-300 md:hover:translate-x-1 hover:scale-125 origin-bottom md:origin-left peer hover:opacity-100 group-hover:opacity-75 hover:z-10',
               i >= 12 ? 'hidden xl:block' : ''
             ]"
           >
