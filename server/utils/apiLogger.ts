@@ -136,79 +136,44 @@ export class ApiLogger {
     top_endpoints: Array<{ route_id: string, count: number }>
   }> {
     try {
-      // Create a cutoff timestamp for the timeframe
-      if (cutoffISO) {
-        console.log(`[ApiLogger] Using cutoff ISO timestamp: ${cutoffISO}`)
-      } else {
-        console.log(`[ApiLogger] No timeframe provided, querying all time`)
-      }
+      const where = cutoffISO ? `WHERE created_at >= ?` : ''
+      const params = cutoffISO ? [cutoffISO] : []
 
-      // Get basic stats
-      let statsQuery
-      if (cutoffISO) {
-        statsQuery = await this.db.sql`
-          SELECT
-            COUNT(*) as total_requests,
-            COUNT(DISTINCT requester_ip) as unique_ips,
-            COALESCE(AVG(response_time_ms), 0) as avg_response_time,
-            COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)), 0) as error_rate
-          FROM api_logs
-          WHERE created_at >= ${cutoffISO}
-        `
-      } else {
-        statsQuery = await this.db.sql`
-          SELECT
-            COUNT(*) as total_requests,
-            COUNT(DISTINCT requester_ip) as unique_ips,
-            COALESCE(AVG(response_time_ms), 0) as avg_response_time,
-            COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*), 0)), 0) as error_rate
-          FROM api_logs
-        `
-      }
+      // Basic stats
+      const statsRow = (await this.db.prepare(
+        `SELECT
+          COUNT(*) as total_requests,
+          COUNT(DISTINCT requester_ip) as unique_ips,
+          COALESCE(AVG(response_time_ms),0) as avg_response_time,
+          COALESCE((COUNT(CASE WHEN status_code >= 400 THEN 1 END) * 100.0 / NULLIF(COUNT(*),0)),0) as error_rate
+         FROM api_logs ${where}`
+      ).get(...params)) || {}
 
-      const statsResult = statsQuery.rows
-      const stats = (statsResult && statsResult[0]) ?? {
-        total_requests: 0,
-        unique_ips: 0,
-        avg_response_time: 0,
-        error_rate: 0
-      }
+      // Top endpoints
+      const top_endpoints = await this.db.prepare(
+        `SELECT route_id, COUNT(*) as count
+         FROM api_logs ${where}
+         GROUP BY route_id
+         ORDER BY count DESC
+         LIMIT 10`
+      ).all(...params)
 
-      // Get top endpoints
-      let topEndpointsQuery
-      if (cutoffISO) {
-        topEndpointsQuery = await this.db.sql`
-          SELECT route_id, COUNT(*) as count
-          FROM api_logs
-          WHERE created_at >= ${cutoffISO}
-          GROUP BY route_id
-          ORDER BY count DESC
-          LIMIT 10
-        `
-      } else {
-        topEndpointsQuery = await this.db.sql`
-          SELECT route_id, COUNT(*) as count
-          FROM api_logs
-          GROUP BY route_id
-          ORDER BY count DESC
-          LIMIT 10
-        `
-      }
-
-      const topEndpointsResult = topEndpointsQuery.rows
-      const topEndpoints = (topEndpointsResult && topEndpointsResult.length > 0) ? topEndpointsResult : []
-
-      const result = {
-        total_requests: Number(stats.total_requests) || 0,
-        unique_ips: Number(stats.unique_ips) || 0,
-        avg_response_time: Number(Number(stats.avg_response_time).toFixed(2)) || 0,
-        error_rate: Number(Number(stats.error_rate).toFixed(2)) || 0,
-        top_endpoints: topEndpoints.map(endpoint => ({
-          route_id: String(endpoint.route_id),
-          count: parseInt(endpoint.count as string, 10)
+      return {
+        // @ts-expect-error statsRow is a raw DB row, may not be typed, but fields exist at runtime
+        total_requests: Number(statsRow.total_requests) || 0,
+        // @ts-expect-error statsRow is a raw DB row, may not be typed, but fields exist at runtime
+        unique_ips: Number(statsRow.unique_ips) || 0,
+        // @ts-expect-error statsRow is a raw DB row, may not be typed, but fields exist at runtime
+        avg_response_time: Number(Number(statsRow.avg_response_time).toFixed(2)) || 0,
+        // @ts-expect-error statsRow is a raw DB row, may not be typed, but fields exist at runtime
+        error_rate: Number(Number(statsRow.error_rate).toFixed(2)) || 0,
+        top_endpoints: (top_endpoints || []).map(e => ({
+          // @ts-expect-error e is a raw DB row, may not be typed, but fields exist at runtime
+          route_id: String(e.route_id),
+          // @ts-expect-error e is a raw DB row, may not be typed, but fields exist at runtime
+          count: Number(e.count)
         }))
       }
-      return result
     } catch (error) {
       console.error('Error getting API stats:', error)
       // Return default stats on error
