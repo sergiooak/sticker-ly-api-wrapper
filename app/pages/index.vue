@@ -63,23 +63,5 @@ const features = [
         />
       </UPageGrid>
     </UPageSection>
-
-    <UPageSection
-      title="Get Started in Minutes"
-      class="mt-8"
-    >
-      <template #description>
-        Check out the documentation to learn how to install, configure, and use the Sticker.ly API Wrapper in your project. Whether you want to search for stickers, browse packs, or explore trending content, everything you need is just a click away.
-      </template>
-      <template #links>
-        <UButton
-          size="lg"
-          to="/getting-started"
-          trailing-icon="i-lucide-arrow-right"
-        >
-          Read the Docs
-        </UButton>
-      </template>
-    </UPageSection>
   </div>
 </template>
